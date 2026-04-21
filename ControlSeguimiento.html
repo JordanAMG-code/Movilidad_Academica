@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Página de opciones</title>
+    
+</head>
+<body>
+    <img src="Carpetadeimagenes/UDC-logo.png" width="400" alt="Logo de la Universidad de Colima">
+    <h1>Control y seguimiento de su movilidad</h1>
+<Style>
+    /* Contenedor principal */
+  .seguimiento-container {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .stepper-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    position: relative;
+  }
+
+  /* Línea de fondo que conecta los círculos */
+  .stepper-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 25px; /* Ajustar según el tamaño del círculo */
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #ddd;
+    z-index: 1;
+  }
+
+  .stepper-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    z-index: 2;
+  }
+
+  /* El círculo */
+  .step-counter {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+    border: 3px solid white;
+  }
+
+  /* El texto de abajo */
+  .step-name {
+    color: #666;
+    font-size: 14px;
+  }
+
+  /* Estado: Completado (Verde UdeC) */
+  .stepper-item.completed .step-counter {
+    background-color: #468122; /* El verde de tus botones */
+  }
+
+  /* Estado: Activo (En el que está actualmente) */
+  .stepper-item.active .step-counter {
+    background-color: #7ab342; /* Un verde más claro o dorado */
+    transform: scale(1.1); /* Lo hace resaltar un poquito */
+  }
+
+  .stepper-item.active .step-name {
+    font-weight: bold;
+    color: #468122;
+  }
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    text-align: center; /* Aprovechamos para centrar el título también */
+}
+
+</Style>
+    <div class="seguimiento-container">
+  <h3>Estado de tu Solicitud</h3>
+  
+  <div class="stepper-wrapper">
+    <div class="stepper-item completed">
+      <div class="step-counter">1</div>
+      <div class="step-name">Solicitud recibida</div>
+    </div>
+
+    <div class="stepper-item active">
+      <div class="step-counter">2</div>
+      <div class="step-name">Validación académica</div>
+    </div>
+
+    <div class="stepper-item">
+      <div class="step-counter">3</div>
+      <div class="step-name">Aceptado / Denegado</div>
+    </div>
+    
+    <div class="stepper-item">
+      <div class="step-counter">4</div>
+      <div class="step-name">Finalizado</div>
+    </div>
+  </div>
+</div>
+</body>
+<footer>
+    <img src="Carpetadeimagenes/pertenenciaudc.png" width="200" alt="Pertenencia que trasforma">
+</footer>
+</html>
+
