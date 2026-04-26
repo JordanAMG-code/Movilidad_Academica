@@ -1,158 +1,99 @@
-/* ===== RESETEO BASE ===== */
-* {
-  margin: 0;          /* Quita todos los márgenes por defecto del navegador */
-  padding: 0;         /* Quita todos los espacios internos por defecto */
-  box-sizing: border-box; /* El padding no agranda el elemento, se incluye dentro */
-}
-/* ===== CUERPO DE LA PÁGINA ===== */
-body {
-  font-family: Georgia, serif;  /* Fuente de todo el texto de la página */
-  text-align: center;           /* Centra todo el contenido */
-  padding: 2rem;                /* Espacio interno alrededor de toda la página */
-  background-color: #cbe5bf;    /* Color verde claro de fondo */
-  min-height: 100vh;            /* La página ocupa mínimo toda la pantalla */
-  display: flex;                /* Activa flexbox en el body */
-  flex-direction: column;       /* Apila los elementos verticalmente (logo, título, tarjetas, footer) */
-}
+        /* Configuración general con colores de "Loro" */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f9f0; 
+            /* Aquí es donde irían tus plantas de fondo */
+            background-image: url('Carpetadeimagenes/textura-hojas.png'); /* Asegúrate de tener la imagen */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-/* ===== MENÚ DE BOTONES PRINCIPALES ===== */
-.menu-botones {
-  display: flex;          /* Los botones se acomodan con flexbox */
-  flex-direction: column; /* Uno debajo del otro */
-  align-items: center;    /* Centrados horizontalmente */
-  gap: 14px;              /* Espacio de 14px entre cada botón */
-  margin: 2rem 0;         /* Espacio arriba y abajo del menú */
-}
+        /* Header ajustado para las mascotas y el logo */
+        .header-logo {
+            background-color: #2e7d32; 
+            color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 5px solid #cddc39; 
+        }
 
-/* ===== ESTILO DE CADA BOTÓN PRINCIPAL ===== */
-.boton-primario {
-  width: 100%;              /* Ocupa todo el ancho disponible */
-  max-width: 380px;         /* Pero nunca más de 380px de ancho */
-  padding: 14px 24px;       /* Espacio interno: 14px arriba/abajo, 24px izquierda/derecha */
-  font-size: 15px;          /* Tamaño del texto */
-  font-weight: 500;         /* Grosor del texto (semi-negrita) */
-  border-radius: 8px;       /* Esquinas ligeramente redondeadas */
-  cursor: pointer;          /* El cursor cambia a manita al pasar encima */
-  transition: background 0.2s; /* El cambio de color al hover tarda 0.2 segundos */
-  background: #479619;      /* Color verde del botón */
-  color: #E6F1FB;           /* Color del texto casi blanco */
-  border: none;             /* Sin borde */
-}
+        .header-logo h1 {
+            flex-grow: 1;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8rem;
+        }
 
-/* Cuando el mouse pasa encima del botón */
-.boton-primario:hover {
-  background: #5bad20; /* Cambia a un verde más claro */
-}
+        .header-logo img {
+            max-height: 80px; /* Tamaño controlado para el header */
+            width: auto;
+        }
 
-/* ===== CONTENEDOR DE LAS TARJETAS ===== */
-.contenedor {
-  flex: 1;                /* Esto es correcto para empujar el footer */
-  display: flex;          /* Las tarjetas se acomodan con flexbox */
-  flex-wrap: wrap;        /* Si no caben en una línea, bajan a la siguiente */
-  gap: 20px;                  /* Espacio de 20px entre cada tarjeta */
-  padding: 20px;              /* Espacio interno del contenedor */
-  justify-content: center;    /* Centra las tarjetas horizontalmente */
-}
+        /* Menú de botones */
+        .menu-botones {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px 20px 20px;
+            flex-wrap: wrap;
+        }
 
-/* ===== CADA TARJETA DE PAÍS ===== */
-.tarjeta-boton {
-  display: flex;                          /* Contenido interno usa flexbox */
-  flex-direction: column;                 /* Imagen, título y descripción van uno abajo del otro */
-  align-items: flex-start;               /* Todo alineado a la izquierda dentro de la tarjeta */
-  background-color: #ffffff;             /* Fondo blanco de la tarjeta */
-  padding: 24px;                         /* Espacio interno de la tarjeta */
-  border-radius: 16px;                   /* Esquinas muy redondeadas */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra suave debajo de la tarjeta */
-  text-decoration: none;                 /* Quita subrayado si es un enlace */
-  color: #333;                           /* Color gris oscuro del texto */
-  transition: all 0.3s ease;            /* Cualquier cambio visual es suave */
-  max-width: 250px;                      /* Ancho máximo de cada tarjeta */
-}
+        .boton-primario {
+            background-color: #4caf50; 
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 2; /* Para que estén sobre el fondo */
+        }
 
-/* ===== CABECERA DE CADA TARJETA (bandera + nombre) ===== */
-.cabecera {
-  display: flex;         /* Bandera y título en flexbox */
-  flex-direction: row;   /* Bandera y título quedan lado a lado */
-  align-items: center;   /* Alineados verticalmente al centro */
-  gap: 10px;             /* Espacio entre la bandera y el título */
-  margin-bottom: 10px;   /* Espacio debajo de la cabecera */
-}
+        .boton-primario:hover {
+            background-color: #cddc39; 
+            color: #1b5e20;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
 
-/* ===== SUBTÍTULO DENTRO DE LA TARJETA ===== */
-.tarjeta-boton .subtitulo {
-  color: #888;                /* Color gris claro */
-  font-size: 14px;            /* Texto pequeño */
-  text-transform: uppercase;  /* Todo en mayúsculas */
-  margin-bottom: 8px;         /* Espacio debajo del subtítulo */
-}
+        /* --- SECCIÓN DEL MAPA (Debajo de los botones) --- */
+        .contenedor-mapa {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            flex-grow: 1; /* Esto ayuda a que el mapa ocupe el espacio central */
+        }
 
-/* ===== TÍTULO PRINCIPAL (nombre del país) ===== */
-.tarjeta-boton .titulo-principal {
-  color: #53a916;       /* Verde institucional */
-  font-size: 22px;      /* Texto grande */
-  font-weight: bold;    /* Negrita */
-  margin-bottom: 16px;  /* Espacio debajo del título */
-  line-height: 1.2;     /* Espacio entre líneas si el título es largo */
-}
+        .mapa-inferior {
+            max-width: 600px; /* Tamaño más grande ya que está al centro */
+            width: 100%;
+            height: auto;
+            opacity: 0.9; /* Un poco de transparencia para que se mezcle con las plantas */
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
+        }
 
-/* ===== ETIQUETA DE ESTADO (ej: Abierta) ===== */
-.tarjeta-boton .etiqueta-estado {
-  display: inline-block; /* Se comporta como bloque pero en línea */
-  padding: 6px 16px;     /* Espacio interno de la etiqueta */
-  border-radius: 20px;   /* Forma de píldora redondeada */
-  font-size: 14px;       /* Texto pequeño */
-}
+        /* Footer */
+        footer {
+            margin-top: auto;
+            background-color: #1b5e20; 
+            padding: 15px;
+            text-align: center;
+        }
 
-/* Cuando la etiqueta tiene la clase "Abierta" */
-.tarjeta-boton .etiqueta-estado.Abierta {
-  text-align: end;                  /* Texto alineado a la derecha */
-  background-color: #4CAF50;        /* Fondo verde */
-  color: white;                     /* Texto blanco */
-  border: 1px solid #4CAF50;        /* Borde del mismo verde */
-}
-/* 1. Ajuste del cuerpo para manejar bien el alto */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-}
-
-/* 2. Estilo para la cabecera (Logo + Título) */
-.header-logo {
-  display: flex;
-  flex-direction: column; /* Cambia a row si quieres logo y texto lado a lado */
-  align-items: center;    /* Centra horizontalmente */
-  padding: 20px;
-}
-
-.header-logo img {
-  max-width: 400px;       /* Ajusta el tamaño de tu logo */
-  margin-bottom: 10px;
-}
-
-
-/* ===== FOOTER ===== */
-footer {
-  box-sizing: border-box;
-  margin-top: auto;           /* Se empuja automáticamente hasta el fondo de la página */
-  background-color: #4a7c2f;  /* Verde oscuro de fondo */
-  text-align: center;         /* Contenido centrado */
-  padding: 20px;              /* Espacio interno */
-  width: auto ;                /* Ocupa todo el ancho de la pantalla */
-  border-top: 1px solid #ddd; /* Línea gris fina que separa el footer del contenido */
-  flex-shrink: 0;         /* Evita que el footer se encoja */
-}
-
-form{
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
-        h1, h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-        .code-block { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; margin: 20px 0; }
-        .task-box { background: #e8f4fd; border-left: 5px solid #3498db; padding: 15px; margin: 20px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
-        th { background-color: #3498db; color: white; }
-        .highlight { color: #e74c3c; font-weight: bold; }
-}
-
-
+        footer img {
+          filter: brightness(0) invert(1); /* Opcional: hace la imagen blanca si es oscura */
+            max-width: 180px;
+        }

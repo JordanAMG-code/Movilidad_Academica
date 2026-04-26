@@ -1,73 +1,224 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos del estudiante</title>
-</head>
-<body>
-
-    <style>
-                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #cbe5bf; }
-        h1, h2 { color: #2c3e50; border-bottom: 2px solid #479619; padding-bottom: 10px; }
-        .code-block { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; margin: 20px 0; }
-        .task-box { background: #e8f4fd; border-left: 5px solid #479619; padding: 15px; margin: 20px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
-        th { background-color: #479619; color: white; }
-        .highlight { color: #e74c3c; font-weight: bold; }
-
-        .header-logo img {
-         max-width: 400px;       /* Ajusta el tamaño de tu logo */
-        margin-bottom: 10px;}
-
-        /* Estilos para el contenedor del formulario */
-form {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    <style>/* 1. Reset y Tipografía */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* Contenedor para cada grupo de label + input */
-.form-group {
-    display: grid;
-    grid-template-columns: 250px 1fr; /* Etiqueta fija de 250px, resto para input */
-    align-items: center;
-    gap: 15px;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e8f5e9; /* Un verde mucho más suave y profesional */
+    color: #2e4a2e;
+    line-height: 1.6;
+    padding: 40px 20px;
+}
+
+/* 2. Contenedor Principal (Tarjeta) */
+form {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px; /* Bordes redondeados modernos */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* 3. Encabezado */
+.header-logo {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-logo img {
+    height: 200px;
     margin-bottom: 15px;
 }
 
-/* Estilos de los inputs */
-input[type="text"],
-input[type="date"],
-input[type="number"],
-input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+h1 {
+    color: #1b5e20; /* Verde UCOL */
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* Ajustes para checkboxes */
-.checkbox-group {
-    margin: 10px 0;
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-/* Mejora los encabezados */
+/* 4. Títulos de Sección */
 h2 {
-    margin-top: 30px;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 5px;
+    width: 100%;
+    color: #2e7d32;
+    font-size: 1.3rem;
+    border-left: 5px solid #2e7d32; /* Línea de acento a la izquierda */
+    padding-left: 15px;
+    margin: 30px 0 20px 0;
+    background: #f1f8e9;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
-        
 
-    </style>
+/* 5. Organización de los campos (Grid) */
+.form-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Se adapta solo al tamaño de pantalla */
+    gap: 20px;
+    margin-bottom: 40px; /* Esto crea el hueco entre secciones */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Contenedor individual para cada etiqueta + input */
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+/* 6. Estilo de los Inputs */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+    padding: 12px;
+    border: 1.5px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #66bb6a;
+    box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.2);
+    background-color: #fff;
+}
+
+/* 7. Checkboxes y Radios */
+.options-group {
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
+
+.options-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: normal;
+}
+/* Contenedor principal del grupo de checkboxes */
+.checkbox-container {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #f9fbf9; /* Un fondo muy ligero para dar contexto */
+    border: 1px solid #e0e6e0;
+    border-radius: 8px;
+}
+
+/* El título "Responsable de gastos" */
+.group-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #2e7d32;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* Contenedor de las opciones para que se pongan de lado a lado */
+.checkbox-options {
+    display: flex;
+    flex-wrap: wrap; /* Para que si la pantalla es chica, se acomoden abajo */
+    gap: 25px;       /* Espacio horizontal entre cada opción */
+}
+
+/* Cada opción individual (input + texto) */
+.option-item {
+    display: flex;
+    align-items: center; /* Centra la casilla con el texto verticalmente */
+    gap: 8px;            /* Espacio entre el cuadrito y el texto */
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+/* Ajuste del tamaño de la casilla */
+.option-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #2e7d32; /* Pone el check en color verde institucional */
+    cursor: pointer;
+}
+
+/* 8. Botones */
+.form-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+input[type="submit"] {
+    background-color: #2e7d32;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #1b5e20;
+}
+
+input[type="reset"] {
+    background-color: #f5f5f5;
+    color: #666;
+    padding: 12px 30px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+input[type="reset"]:hover {
+    background-color: #eeeeee;
+}
+
+/* 9. Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+}
+
+footer img {
+    opacity: 0.8;
+    filter: grayscale(20%);
+}
+</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Movilidad - UCOL</title>
+</head>
+
+
+<body>
     <header class="header-logo">
         <img src="Carpetadeimagenes/UDC-logo.png" alt="Logo UCOL">
         <h1>Solicitud de Movilidad</h1>
@@ -75,93 +226,174 @@ h2 {
 
     <form>
 <!-------------------Datos personales------------------------>
-    <div class="form-group">
-        <h2>Datos personales</h2> <br>
-        <label for="nomb">Nombres del estudiante: </label>
-            <input type="text" id="nomb" name="nomb" value="">
-        <label for="apell">Apellidos del estudiante: </label>
-            <input type="text" id="apell" name="apell" value="">
-        <label for="Nacimiento">Fecha de nacimiento: </label>
-            <input type="date" id="Nacimiento" name="Nacimiento">
-        <label for="direccion">Dirección actual: </label>
-            <input type="text" id="direccion" name="direccion">
-        <label for="Nacionalidad">Nacionalidad: </label>
-            <input type="text" id="Nacionalidad" name="Nacionalidad">
-        <label for="Correo">Correo Electrónico</label>
-            <input type="text" id="Correo" name="Correo">
-        <label for="numero">Número teléfonico: </label>
-            <input type="number" id="numero" name="numero">
-    </div>
-        
-<!-------------------Informacion Academica-------------------->
-    <div class="form-group">
-        <h2>Información Académica</h2><br>
-        <label for="uni">Universidad de origen: </label>
-            <input type="text" id="uni" name="uni">
-        <label for="carrera">Carrera que estudia actualmente: </label>
-            <input type="text" id="carrera" name="carrera">
-        <label for="semestre">Semestre que cursa actualmente: </label>
-            <input type="number" id="semestre" name="semestre">
-        <label for="promedio">Promedio general: </label>
-            <input type="number" step="any" maxlength="2" id="promedio" name="promedio">
-        <label for="numcuenta">Numero de cuenta: </label>
-            <input type="number" id="numcuenta" name="numcuenta">
-    </div> <br>
-<!----------------------Informacion de movilidad------------------------->
-    <div class="form-group">
-        <h2>Información de movilidad</h2><br>  
-        <label for="unimov">Universidad a la que se desea ingresar: </label>
-            <input type="text" id="unimov" name="unimov">
-        <label for="paisdestino">Pais de destino: </label>
-            <input type="text" id="paisdestino" name="paisdestino">
-        <label for="estanciaini">Periodo de estancia(fecha de inicio): </label>
-            <input type="date" id="estanciaini" name="estanciaini">
-        <label for="estanciafin">Periodo de estancia(fecha del fin): </label>
-            <input type="date" id="estanciafin" name="estanciafin">
-        <label for="tipomovilidad">Tipo de movilidad (presencial, virtual, mixta): </label>
-            <input type="text" id="tipomivilidad" name="tipomovilidad">
-    </div> <br>
+        <div class="form-group">
+            <h2>Datos personales</h2>
+            
+            <div class="input-box">
+                <label for="nomb">Nombres del estudiante:</label>
+                <input type="text" id="nomb" name="nomb" required>
+            </div>
 
+            <div class="input-box">
+                <label for="apell">Apellidos del estudiante:</label>
+                <input type="text" id="apell" name="apell" required>
+            </div>
+
+            <div class="input-box">
+                <label for="Nacimiento">Fecha de nacimiento:</label>
+                <input type="date" id="Nacimiento" name="Nacimiento" required>
+            </div>
+
+            <div class="input-box">
+                <label for="direccion">Dirección actual:</label>
+                <input type="text" id="direccion" name="direccion" required>
+            </div>
+
+            <div class="input-box">
+                <label for="Nacionalidad">Nacionalidad:</label>
+                <input type="text" id="Nacionalidad" name="Nacionalidad" required>
+            </div>
+
+            <div class="input-box">
+                <label for="Correo">Correo Electrónico:</label>
+                <input type="email" id="Correo" name="Correo" required>
+            </div>
+
+            <div class="input-box">
+                <label for="numero">Número teléfonico:</label>
+                <input type="tel" id="numero" name="numero" placeholder="+52 312 123 4567" required>
+            </div>
+        </div>
+<!-------------------Informacion Academica-------------------->
+        <div class="form-group">
+            <h2>Información Académica</h2>
+            
+            <div class="input-box">
+                <label for="uni">Universidad de origen:</label>
+                <input type="text" id="uni" name="uni" required>
+            </div>
+
+            <div class="input-box">
+                <label for="carrera">Carrera actual:</label>
+                <input type="text" id="carrera" name="carrera" required>
+            </div>
+
+            <div class="input-box">
+                <label for="semestre">Semestre que cursa:</label>
+                <input type="number" id="semestre" name="semestre" required>
+            </div>
+
+            <div class="input-box">
+                <label for="promedio">Promedio general:</label>
+                <input type="number" step="0.1" id="promedio" name="promedio" required>
+            </div>
+
+            <div class="input-box">
+                <label for="numcuenta">Número de cuenta:</label>
+                <input type="number" id="numcuenta" name="numcuenta" required>
+            </div>
+        </div>
+<!----------------------Informacion de movilidad------------------------->
+        <div class="form-group">
+            <h2>Información de movilidad</h2>
+            
+            <div class="input-box">
+                <label for="unimov">Universidad destino:</label>
+                <input type="text" id="unimov" name="unimov" required>
+            </div>
+
+            <div class="input-box">
+                <label for="paisdestino">País de destino:</label>
+                <input type="text" id="paisdestino" name="paisdestino" required>
+            </div>
+
+            <div class="input-box">
+                <label for="estanciaini">Fecha inicio:</label>
+                <input type="date" id="estanciaini" name="estanciaini" required>
+            </div>
+
+            <div class="input-box">
+                <label for="estanciafin">Fecha fin:</label>
+                <input type="date" id="estanciafin" name="estanciafin" required>
+            </div>
+
+            <div class="input-box">
+                <label for="tipomovilidad">Tipo de movilidad:</label>
+                <select id="tipomovilidad" name="tipomovilidad" required>
+                    <option value="">Selecciona...</option>
+                    <option value="presencial">Presencial</option>
+                    <option value="virtual">Virtual</option>
+                    <option value="mixta">Mixta</option>
+                </select>
+            </div>
+        </div>
 <!------------------------Plan academico----------------------------->
-    <div class="form-group">
-        <h2>Plan académico</h2><br>
-        <label for="materiascursa">Materias que desea cursar: </label>
-            <input type="text" name="materiascursa" id="materiascursa">
-        <label for="obacademico">Objetivo académico de la movilidad</label>
-            <input type="text" name="obacademico" id="obacademico">
-    </div> <br>
+        <div class="form-group">
+            <h2>Plan académico</h2>
+            <div class="input-box full-width">
+                <label for="materiascursa">Materias que desea cursar:</label>
+                <input type="text" name="materiascursa" id="materiascursa" required>
+            </div>
+            <div class="input-box full-width">
+                <label for="obacademico">Objetivo académico:</label>
+                <textarea name="obacademico" id="obacademico" required></textarea>
+            </div>
+        </div>
 <!-----------------------Financiamiento de la persona--------------->
-    <div class="form-group">
-        <h2>Financiamiento académico</h2><br>
-        <label for="apoyoecomic">Tipo de apoyo económico (beca, recursos propios, etc.): </label>
-            <input type="text" name="apoyoecomic" id="apoyoecomic">
-        <label for="nombrebeca">Nombre de la beca(si es que aplica): </label><br>
-            <input type="text" name="nombrebeca" id="nombrebeca"> <br>
-        <label for="respongastos">Responsable de los gastos: </label> <br>
-            <input type="checkbox" name="respongastos">Madre o Padre<br>
-            <input type="checkbox" name="respongastos">Propios gastos<br>
-            <input type="checkbox" name="respongastos">Familiares<br>
-            <input type="checkbox" name="respongastos">Terceros
-    </div> <br>
+        <div class="form-group">
+            <h2>Financiamiento académico</h2>
+            <div class="input-box">
+                <label for="apoyoecomic">Tipo de apoyo económico:</label>
+                <input type="text" name="apoyoecomic" id="apoyoecomic" required>
+            </div>
+            <div class="input-box">
+                <label for="nombrebeca">Nombre de la beca:</label>
+                <input type="text" name="nombrebeca" id="nombrebeca">
+            </div>
+            <div class="checkbox-container">
+                <label class="group-label">Responsable de gastos:</label>
+                <div class="checkbox-options">
+                    <label class="option-item"><input type="checkbox" name="resp" value="padres"> Madre/Padre</label>
+                    <label class="option-item"><input type="checkbox" name="resp" value="propios"> Propios</label>
+                    <label class="option-item"><input type="checkbox" name="resp" value="familiares"> Familiares</label>
+                    <label class="option-item"><input type="checkbox" name="resp" value="terceros"> Terceros</label>
+                </div>
+            </div>
+
+
+        </div>
 <!---------------------------Informacion adicional-------------------->
-    <div class="form-group">
-        <h2>Informacion adicional</h2><br>
-        <label for="idiomas">Idiomas que domina(y nivel): </label>
-            <input type="text" name="idiomas" id="idiomas">
-        <label for="contacemerg">Contactos de emergencia: </label><br>
-            <input type="text" name="contacemerg" id="contacemerg">Nombres
-            <input type="text" name="contacemerg" id="contacemerg">Apellidos
-            <input type="checkbox" name="contacemerg" id="contacemerg">Madre
-            <input type="checkbox" name="contacemerg" id="contacemerg">Padre
-            <input type="checkbox" name="contacemerg" id="contacemerg">Herman@
-            <input type="checkbox" name="contacemerg" id="contacemerg">Tercero
-            <input type="number" name="contacemerg" id="contacemerg">Número teléfonico
-    </div>
+
+        <div class="form-group">
+            <h2>Información adicional</h2>
+            
+            <div class="input-box">
+                <label for="idiomas">Idiomas y nivel:</label>
+                <input type="text" placeholder="Inglés(B2), Japonés(B1)" name="idiomas" id="idiomas" required>
+            </div>
+            <div class="full-width">
+                <h3>Contacto de emergencia</h3>
+                <div class="emergency-grid">
+                    <input type="text" placeholder="Nombre completo" required>
+                    <input type="tel" placeholder="Teléfono" required>
+                    <div class="options">
+                        <label><input type="radio" name="parentesco" required> Madre</label>
+                        <label><input type="radio" name="parentesco"> Padre</label>
+                        <label><input type="radio" name="parentesco"> Herman@</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--Botones de enviar y borrar-->
+        <div class="form-buttons">
+            <input type="submit" value="Enviar formulario">
+            <input type="reset" value="Borrar formulario">
+        </div>
     </form>
 
-</body>
-<footer>
-    <img src="Carpetadeimagenes/pertenenciaudc.png" width="200" alt="Pertenencia que trasforma">
-</footer>
-</html>
+    <footer>
+        <img src="Carpetadeimagenes/pertenenciaudc.png" width="200" alt="Pertenencia">
+    </footer>
 
+</body>
+</html>
