@@ -1,9 +1,7 @@
         /* Configuración general con colores de "Loro" */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f9f0; 
-            /* Aquí es donde irían tus plantas de fondo */
-            background-image: url('Carpetadeimagenes/textura-hojas.png'); /* Asegúrate de tener la imagen */
+            background-color: #f0f9f0;
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -13,7 +11,6 @@
             flex-direction: column;
             min-height: 100vh;
         }
-
         /* Header ajustado para las mascotas y el logo */
         .header-logo {
             background-color: #2e7d32; 
@@ -24,7 +21,6 @@
             align-items: center;
             border-bottom: 5px solid #cddc39; 
         }
-
         .header-logo h1 {
             flex-grow: 1;
             text-align: center;
@@ -38,13 +34,59 @@
             width: auto;
         }
 
-        /* Menú de botones */
+        .header-logoInicio{
+            background-color: #2d4143; 
+            color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            border-bottom: 5px solid #747e1e; 
+        }
+
+        .header-logoInicio img{
+            filter: brightness(0) invert(1); 
+            max-width: auto;
+            
+        }
+        /*==================Menú de botones===================== */
         .menu-botones {
             display: flex;
             justify-content: center;
             gap: 20px;
             padding: 40px 20px 20px 20px;
             flex-wrap: wrap;
+        }
+
+        .menu-botonesInicio {
+            display: flex;
+            flex-direction: column; /* <-- ESTO LOS APILA UNO ARRIBA DEL OTRO */
+            align-items: center;    /* <-- ESTO LOS MANTIENE CENTRADOS HORIZONTALMENTE */
+            justify-content: center;
+            gap: 20px;              /* Esto mantendrá el espacio de 20px, pero ahora hacia abajo */
+            padding: 00px 20px 20px 20px;  /* Arriba, Derecha, Abajo, Izquierda */
+            
+        }
+
+        .BotonInicio{
+            background-color: #2d4143; 
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 2;
+            width: 200px;
+        }
+        .BotonInicio:hover{
+            background-color: transparent;
+            color: #000000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);   
         }
 
         .boton-primario {
@@ -81,14 +123,37 @@
             max-width: 600px; /* Tamaño más grande ya que está al centro */
             width: 100%;
             height: auto;
-            opacity: 0.9; /* Un poco de transparencia para que se mezcle con las plantas */
             filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
         }
+
+        /*==============Seccion de bienvenido===================*/
+        .IMGBienvenido{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* esto es para ponerlo mas arriba */
+            padding: 10px;
+        }
+
+        .Bienvenido{
+            max-width: 350px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
+            margin-top: 0px; /* Esto es para forzarlo hacia arriba */
+        }
+
 
         /* Footer */
         footer {
             margin-top: auto;
             background-color: #1b5e20; 
+            padding: 15px;
+            text-align: center;
+        }
+
+        .FooIni{
+            margin-top: auto;
+            background-color: #2d4143; 
             padding: 15px;
             text-align: center;
         }
