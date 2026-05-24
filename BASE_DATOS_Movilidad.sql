@@ -147,10 +147,12 @@ Create Table ESTUDIANTE_MOVILIDAD(
 	No_CuentaEstuudianteEM varchar(7) not null,
 	ID_MovilidadEM varchar(7) not null,
 	CONSTRAINT pk_ESTUDIANTE_MOVILIDAD PRIMARY KEY (No_CuentaEstuudianteEM, ID_MovilidadEM),
-	CONSTRAINT fk_No_CuentaEstuudianteEM 
+	
+        CONSTRAINT fk_No_CuentaEstuudianteEM 
         FOREIGN KEY (No_CuentaEstuudianteEM) 
         REFERENCES ESTUDIANTES(No_CuentaEstuudiante),
-	CONSTRAINT fk_ID_MovilidadEM
+	
+        CONSTRAINT fk_ID_MovilidadEM
         FOREIGN KEY (ID_MovilidadEM) 
         REFERENCES MOVILIDAD(ID_Movilidad)
 
@@ -627,6 +629,201 @@ VALUES
 ('EST0069', 'MAT0045'), ('EST0069', 'MAT0046');
 
 select * from MATERIAESTUDIANTE;
+
+
+
+------------------------------------------------------------------------------------------------------
+
+Create Database Movilidad_Equipo3_Final1;
+
+Use Movilidad_Equipo3_Final1
+
+CREATE TABLE login(
+    correo VARCHAR(50) PRIMARY KEY not null,
+    contraseña VARCHAR(255)  
+);
+
+Create Table UNIVERSIDAD(
+	No_Universidad varchar(7) primary key not null,
+	NombreU varchar(100) not null,
+	Estado varchar(30) not null,
+	Pais varchar(40) not null
+);
+
+Create Table FACULTAD(
+	ID_Facultad varchar(7) primary key not null,
+	NombreF varchar(100) not null,
+	No_Universidad varchar(7) not null,
+	CONSTRAINT fk_No_UniversidadF 
+        FOREIGN KEY (No_Universidad) 
+        REFERENCES UNIVERSIDAD(No_Universidad)
+);
+
+Create Table CARRERA(
+	ID_Carrera varchar(7) primary key not null,
+	NombreC varchar(100) not null,
+        Tem_Carrera varchar(30) not null,
+	ID_FacultadC varchar(7) not null,
+	CONSTRAINT fk_ID_FacultadC 
+        FOREIGN KEY (ID_FacultadC) 
+        REFERENCES FACULTAD(ID_Facultad)
+);
+
+Create Table DOCENTES(
+	No_CuentaDocente varchar(7) Primary key not null,
+        ContraseñaD varchar(10) not null,
+	NombresD varchar(17) not null,
+	P_ApellidoD varchar(15) not null,
+	S_ApellidoD varchar(15) not null,
+	ID_CarreraD varchar(7) not null,
+    correo VARCHAR(50) not null, 
+	CONSTRAINT fk_ID_CarreraD 
+        FOREIGN KEY (ID_CarreraD) 
+        REFERENCES CARRERA(ID_Carrera),
+        CONSTRAINT fk_correo FOREIGN KEY (correo) REFERENCES login(correo)
+
+); 
+
+Create Table MATERIA(
+	ID_Materia varchar(7) primary key not null,
+	NombreM varchar(40) not null,
+	T_Materia varchar(40) not null,
+	ID_CarreraM varchar(7) not null,
+    No_CuentaDocenteM VARCHAR(7) NOT NULL,
+	CONSTRAINT fk_ID_CarreraM FOREIGN KEY (ID_CarreraM) REFERENCES CARRERA(ID_Carrera),
+    CONSTRAINT fk_No_CuentaDocenteM FOREIGN KEY (No_CuentaDocenteM) REFERENCES DOCENTES(No_CuentaDocente)
+);
+
+CREATE TABLE MOVILIDAD (
+    ID_Movilidad varchar(7) PRIMARY KEY NOT NULL,
+    Ciclo_Escolar varchar(10) NOT NULL,
+    Analisis_Movilidad int,
+    Gastos VARCHAR(15) NOT NULL,
+    Idioma VARCHAR(20), 
+    Nivel_Idioma VARCHAR(3),
+    NombresCE varchar(17) not null,
+    P_ApellidoCE varchar(15) not null,
+    S_ApellidoCE varchar(15) not null,
+    Numero_ContactoEmergencia varchar(10) not null, 
+    No_UniversidadM varchar(7) NOT NULL,
+    ID_FacultadMo varchar(7) NOT NULL,
+    ID_CarreraMo varchar(7) NOT NULL,
+    No_CuentaDocenteMo varchar(7) NOT NULL,
+
+    CONSTRAINT fk_No_UniversidadM 
+        FOREIGN KEY (No_UniversidadM) 
+        REFERENCES UNIVERSIDAD(No_Universidad),
+
+    CONSTRAINT fk_ID_CarreraMo 
+        FOREIGN KEY (ID_CarreraMo) 
+        REFERENCES CARRERA(ID_Carrera),
+
+    CONSTRAINT fk_No_CuentaDocenteMo 
+        FOREIGN KEY (No_CuentaDocenteMo) 
+        REFERENCES DOCENTES(No_CuentaDocente),
+
+    CONSTRAINT fk_ID_FacultadMo
+        FOREIGN KEY (ID_FacultadMo) 
+        REFERENCES FACULTAD(ID_Facultad)
+);
+
+CREATE TABLE GRUPOS(
+    id_grupo VARCHAR(7)  PRIMARY KEY not null,
+    nombre_grupo VARCHAR(50),
+    semestre INT,
+    ID_Materia varchar(7) not null,
+    CONSTRAINT fk_ID_Materia  FOREIGN KEY (ID_Materia) REFERENCES MATERIA(id_materia)
+);
+
+CREATE TABLE ADMINISTRADORES(
+    matricula_admin VARCHAR(7) PRIMARY KEY,
+    contraseña VARCHAR(30),
+    NombresAd varchar(17) not null,
+    P_ApellidoAd varchar(15) not null,
+    S_ApellidoAd varchar(15) not null,
+    correo VARCHAR(50),
+    FOREIGN KEY (correo) REFERENCES login(correo)
+);
+
+Create Table Docente_Grupo(
+        No_CuentaDocenteDG varchar(7) not null, 
+        id_grupo VARCHAR(7) not null,
+        PRIMARY KEY (No_CuentaDocenteDG, id_grupo),
+        FOREIGN KEY (No_CuentaDocenteDG) REFERENCES DOCENTES(No_CuentaDocente),
+        FOREIGN KEY (id_grupo) REFERENCES GRUPOS(id_grupo)
+);
+
+
+
+Create Table MATERIA_DOCENTE(
+	No_CuentaDocenteMD varchar(7) not null,
+	ID_MateriaMD varchar(7) not null,
+	CONSTRAINT pk_MateriaDocente PRIMARY KEY (No_CuentaDocenteMD, ID_MateriaMD),
+	CONSTRAINT fk_No_CuentaDocenteMD 
+        FOREIGN KEY (No_CuentaDocenteMD) 
+        REFERENCES DOCENTES(No_CuentaDocente),
+	CONSTRAINT fk_ID_MateriaMD 
+        FOREIGN KEY (ID_MateriaMD) 
+        REFERENCES MATERIA(ID_Materia)
+
+);
+
+CREATE TABLE ESTUDIANTES(
+    No_CuentaEstuudiante varchar(7) primary key NOT NULL,
+    contraseñaE VARCHAR(10) not null,
+    NombresE varchar(17) NOT NULL,
+    P_ApellidoE varchar(15) NOT NULL,
+    S_ApellidoE varchar(15) NOT NULL,
+    Fecha_Nacimiento DATETIME,
+    Domicilio VARCHAR(60) not null,
+    Nacionalidad varchar(50) not null,
+    Semestre int,
+    Num_telefono varchar(10), 
+    id_grupoE varchar(7) NOT NULL,
+    id_CarreraE varchar(7) NOT NULL,
+    correoE VARCHAR(50) not null,  
+
+    CONSTRAINT fk_ID_CarreraE FOREIGN KEY (ID_CarreraE) REFERENCES CARRERA(ID_Carrera),
+    CONSTRAINT fk_id_grupoE FOREIGN KEY (id_grupoE) REFERENCES GRUPOS(id_grupo),
+    CONSTRAINT fk_correoE FOREIGN KEY (correoE) REFERENCES login(correo)
+
+);
+
+Create Table ESTUDIANTE_MOVILIDAD(
+	No_CuentaEstuudianteEM varchar(7) not null,
+	ID_MovilidadEM varchar(7) not null,
+	CONSTRAINT pk_ESTUDIANTE_MOVILIDAD PRIMARY KEY (No_CuentaEstuudianteEM, ID_MovilidadEM),
+	
+        CONSTRAINT fk_No_CuentaEstuudianteEM FOREIGN KEY (No_CuentaEstuudianteEM) REFERENCES ESTUDIANTES(No_CuentaEstuudiante),
+	
+        CONSTRAINT fk_ID_MovilidadEM FOREIGN KEY (ID_MovilidadEM) REFERENCES MOVILIDAD(ID_Movilidad)
+);
+
+CREATE TABLE CALIFICACIONES(
+    id_calificacion VARCHAR(7) PRIMARY KEY,
+    parcial_uno NUMERIC (2,1),
+    parcial_dos NUMERIC (2,1),
+    parcial_tres NUMERIC (2,1),
+    Calificaciones NUMERIC (2,1),
+    No_CuentaEstuudiante varchar(7) NOT NULL,
+    ID_MateriaC varchar(7) not null, 
+
+    FOREIGN KEY (No_CuentaEstuudiante) REFERENCES ESTUDIANTES(No_CuentaEstuudiante),
+    FOREIGN KEY (ID_MateriaC) REFERENCES MATERIA(ID_Materia)
+);
+
+Drop table MATERIA_DOCENTE;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
