@@ -1,6 +1,20 @@
 // Esperamos a que el DOM (el HTML) esté completamente cargado
 document.addEventListener("DOMContentLoaded", () => {
-
+//================================Inicio==============================//
+    const botonEstudiante = document.getElementById("BotonEstudiante");
+    if (botonEstudiante) {
+        botonEstudiante.addEventListener("click", () => {
+            window.location.href = "InicioEstudiante.html";
+        });
+    }
+//===========================Inicio de Estudiante=======================//
+    const botonInicioEstudiante = document.getElementById("BotonIngresar");
+    if (botonInicioEstudiante) {
+        botonInicioEstudiante.addEventListener("click", () => {
+            window.location.href = "MenuOpciones.html";
+        });
+    }
+//=============================Menú de opciones==========================//
     // Seleccionamos el botón por su ID
     const botonConvocatorias = document.getElementById("btn-explorar");
 
@@ -29,4 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "ControlSeguimiento.html";
         });
     }
+
+
 });
