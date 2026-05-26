@@ -30,7 +30,6 @@
             letter-spacing: 2px;
             font-size: 1.8rem;
         }
-
         .header-logo img {
             max-height: 80px; /* Tamaño controlado para el header */
             width: auto;
@@ -65,9 +64,6 @@
             max-width: auto;
             max-height: 80px;
         }
-
-
-
         /*==================Menú de botones===================== */
         .menu-botones {
             display: flex;
@@ -181,16 +177,83 @@
             max-width: 180px;
         }
         /*=================================Inicio estudiante ingresar datos=====================*/
-        input[type="numberaccount"],
-        input[type="password"],
-        select,
-        textarea{
+        /* Centra el bloque completo en la pantalla */
+    .contenedor-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px; /* Separa el contenido del header */
+    margin-bottom: 60px; /* Separa el contenido del footer */
+    }
+
+    /* Mantén tus estilos actuales para los inputs, pero agrégales un ancho */
+    /* Asegura que todos tus inputs tengan el mismo estilo */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"] {
+    width: 280px;
+    padding: 12px 15px;
+    border: 1.5px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    outline: none; /* Elimina el recuadro naranja/azul que pone el navegador por defecto */
+    }
+
+    /* Efecto visual cuando el usuario hace clic en la caja para escribir */
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="password"]:focus {
+        border-color: #216738; /* Verde estilo UCOL */
+        box-shadow: 0 0 5px rgba(33, 103, 56, 0.3); /* Ligero resplandor verde */
+    }
+    /* Opcional: un poco de estilo extra para centrar el botón */
+    .menu-botones {
+        display: flex;
+        justify-content: center;
+    }
+    /* Ocultar flechas en Chrome, Safari, Edge y Opera */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Ocultar flechas en Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+            
+    /* Estilos para el botón usando su ID */
+    #BotonIngresar {
+        width: 280px; /* El mismo ancho que los inputs para que se vea simétrico */
         padding: 12px;
-        border: 1.5px solid #ced4da;
+        background-color: #216738; /* Color verde principal */
+        color: #ffffff; /* Texto en blanco */
+        border: none;
         border-radius: 6px;
         font-size: 1rem;
-        transition: all 0.3s ease;
-        background-color: #ffffff;
-        }
-        
-        
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    /* Efecto al pasar el cursor (mouse) sobre el botón */
+    #BotonIngresar:hover {
+        background-color: #164a27; /* Un verde un poco más oscuro */
+    }
+
+    /* Efecto de hundimiento al hacer clic en el botón */
+    #BotonIngresar:active {
+        transform: scale(0.98);
+    }
+    /* Estilos para el título "Ingrese sus datos" */
+    .DatosEstudiante h2 {
+        color: #216738;       /* El mismo verde institucional de la universidad */
+        text-align: center;   /* Centra el texto por completo */
+        font-size: 1.6rem;    /* Hace la letra un poco más llamativa */
+        margin-top: 10px;     /* Separa el título un poco de la parte superior */
+        margin-bottom: 5px;   /* Reduce el espacio exagerado debajo del título */
+    }
