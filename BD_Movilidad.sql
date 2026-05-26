@@ -387,6 +387,59 @@ SELECT * FROM ESTUDIANTE_MOVILIDAD;
 SELECT * FROM MATERIAESTUDIANTE;
 SELECT * FROM CALIFICACIONES;
 
+--Obtner los datos de la universidad de origen de los alumnos que participan en la movilidad 
+Select UNIVERSIDAD.NombreU, UNIVERSIDAD.Estado, UNIVERSIDAD.Pais, FACULTAD.NombreF, CARRERA.NombreC, CARRERA.Tem_Carrera
+from ESTUDIANTES
+Inner join CARRERA on ESTUDIANTES.id_CarreraE = CARRERA.ID_Carrera
+Inner join FACULTAD on CARRERA.ID_FacultadC = FACULTAD.ID_Facultad
+Inner join UNIVERSIDAD on FACULTAD.No_Universidad = UNIVERSIDAD.No_Universidad
+WHERE ESTUDIANTES.No_CuentaEstuudiante IN (SELECT No_CuentaEstuudianteEM FROM ESTUDIANTE_MOVILIDAD)
+
+Select UNIVERSIDAD.NombreU, UNIVERSIDAD.Pais, UNIVERSIDAD.Estado, FACULTAD.NombreF, CARRERA.NombreC, 
+CARRERA.Tem_Carrera, MOVILIDAD.Ciclo_Escolar, 
+MOVILIDAD.NombresCE,MOVILIDAD.P_ApellidoCE, MOVILIDAD.S_ApellidoCE, MOVILIDAD.Numero_ContactoEmergencia,
+ESTUDIANTES.NombresE, ESTUDIANTES.P_ApellidoE, ESTUDIANTES.S_ApellidoE, 
+ESTUDIANTES.Fecha_Nacimiento, ESTUDIANTES.Domicilio, ESTUDIANTES.Nacionalidad, ESTUDIANTES.Semestre, 
+ESTUDIANTES.Num_telefono, GRUPOS.nombre_grupo 
+FROM ESTUDIANTES
+INNER JOIN GRUPOS ON ESTUDIANTES.id_grupoE = GRUPOS.id_grupo
+INNER JOIN ESTUDIANTE_MOVILIDAD ON ESTUDIANTES.No_CuentaEstuudiante = ESTUDIANTE_MOVILIDAD.No_CuentaEstuudianteEM
+INNER JOIN MOVILIDAD ON ESTUDIANTE_MOVILIDAD.ID_MovilidadEM = MOVILIDAD.ID_Movilidad
+INNER JOIN CARRERA ON MOVILIDAD.ID_CarreraMo = CARRERA.ID_Carrera
+INNER JOIN FACULTAD ON CARRERA.ID_FacultadC = FACULTAD.ID_Facultad
+INNER JOIN UNIVERSIDAD ON FACULTAD.No_Universidad = UNIVERSIDAD.No_Universidad;
+
+-- 3. Lista a los estudiantes en movilidad junto con el nombre del docente que está a cargo de dicho trámite.
+SELECT ESTUDIANTES.NombresE, ESTUDIANTES.P_ApellidoE, DOCENTES.NombresD AS Docente_Encargado
+FROM ESTUDIANTES
+INNER JOIN ESTUDIANTE_MOVILIDAD ON ESTUDIANTES.No_CuentaEstuudiante = ESTUDIANTE_MOVILIDAD.No_CuentaEstuudianteEM
+INNER JOIN MOVILIDAD ON ESTUDIANTE_MOVILIDAD.ID_MovilidadEM = MOVILIDAD.ID_Movilidad
+INNER JOIN DOCENTES ON MOVILIDAD.No_CuentaDocenteMo = DOCENTES.No_CuentaDocente;
+
+-- 2. Filtra exclusivamente a los estudiantes de 6to semestre en movilidad e indica a qué carrera de destino aplican.
+SELECT ESTUDIANTES.NombresE, ESTUDIANTES.Semestre, CARRERA.NombreC AS Carrera_Destino
+FROM ESTUDIANTES
+INNER JOIN ESTUDIANTE_MOVILIDAD ON ESTUDIANTES.No_CuentaEstuudiante = ESTUDIANTE_MOVILIDAD.No_CuentaEstuudianteEM
+INNER JOIN MOVILIDAD ON ESTUDIANTE_MOVILIDAD.ID_MovilidadEM = MOVILIDAD.ID_Movilidad
+INNER JOIN CARRERA ON MOVILIDAD.ID_CarreraMo = CARRERA.ID_Carrera
+WHERE ESTUDIANTES.Semestre = 6;
+
+-- 4. Lista a los estudiantes en movilidad indicando su carrera de origen y el ciclo asignado.
+SELECT ESTUDIANTES.NombresE, CARRERA.NombreC AS Carrera_Origen, MOVILIDAD.Ciclo_Escolar
+FROM ESTUDIANTES
+INNER JOIN CARRERA ON ESTUDIANTES.ID_CarreraE = CARRERA.ID_Carrera
+INNER JOIN ESTUDIANTE_MOVILIDAD ON ESTUDIANTES.No_CuentaEstuudiante = ESTUDIANTE_MOVILIDAD.No_CuentaEstuudianteEM
+INNER JOIN MOVILIDAD ON ESTUDIANTE_MOVILIDAD.ID_MovilidadEM = MOVILIDAD.ID_Movilidad;
+
+-- 5. Muestra el teléfono de contacto de los estudiantes en movilidad y la universidad a la que asistirán.
+SELECT ESTUDIANTES.NombresE, ESTUDIANTES.P_ApellidoE, ESTUDIANTES.Num_telefono, UNIVERSIDAD.NombreU
+FROM ESTUDIANTES
+INNER JOIN ESTUDIANTE_MOVILIDAD ON ESTUDIANTES.No_CuentaEstuudiante = ESTUDIANTE_MOVILIDAD.No_CuentaEstuudianteEM
+INNER JOIN MOVILIDAD ON ESTUDIANTE_MOVILIDAD.ID_MovilidadEM = MOVILIDAD.ID_Movilidad
+INNER JOIN UNIVERSIDAD ON MOVILIDAD.No_UniversidadM = UNIVERSIDAD.No_Universidad;
+
+
+
 
 
 
