@@ -7,6 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "InicioEstudiante.html";
         });
     }
+    
+    const botonVisitante = document.getElementById("BotonVisitante");
+    if (botonVisitante) {
+        botonVisitante.addEventListener("click", () => {
+            window.location.href = "ExplorarConvoca.html"
+
+        })
+    }
 //===========================Inicio de Estudiante=======================//
     const botonInicioEstudiante = document.getElementById("BotonIngresar");
     if (botonInicioEstudiante) {
