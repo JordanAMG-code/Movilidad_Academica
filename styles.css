@@ -10,7 +10,9 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        
         }
+        /*==================Menu de opciones=====================*/
         /* Header ajustado para las mascotas y el logo */
         .header-logo {
             background-color: #2e7d32; 
@@ -47,8 +49,25 @@
         .header-logoInicio img{
             filter: brightness(0) invert(1); 
             max-width: auto;
-            
         }
+
+        /*========================Inicio estudiante======================= */
+        .header-logoIniEst{
+            background-color: #2e7d32; 
+            color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            border-bottom: 5px solid #cddc39; 
+        }
+        .header-logoIniEst img{
+            max-width: auto;
+            max-height: 80px;
+        }
+
+
+
         /*==================Menú de botones===================== */
         .menu-botones {
             display: flex;
@@ -142,7 +161,6 @@
             margin-top: 0px; /* Esto es para forzarlo hacia arriba */
         }
 
-
         /* Footer */
         footer {
             margin-top: auto;
@@ -162,3 +180,17 @@
           filter: brightness(0) invert(1); /* Opcional: hace la imagen blanca si es oscura */
             max-width: 180px;
         }
+        /*=================================Inicio estudiante ingresar datos=====================*/
+        input[type="numberaccount"],
+        input[type="password"],
+        select,
+        textarea{
+        padding: 12px;
+        border: 1.5px solid #ced4da;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #ffffff;
+        }
+        
+        
