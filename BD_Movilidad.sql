@@ -359,24 +359,6 @@ INSERT INTO ESTUDIANTE_MOVILIDAD (No_CuentaEstuudianteEM, ID_MovilidadEM) VALUES
 ('EST0070', 'MOV0004'),
 ('EST0071', 'MOV0005');
 
--- MATERIAESTUDIANTE
-INSERT INTO MATERIAESTUDIANTE (No_CuentaEstuudianteMA, ID_MateriaMA) VALUES 
-('EST0001', 'MAT0001'), 
-('EST0001', 'MAT0002'),
-('EST0002', 'MAT0001'), 
-('EST0002', 'MAT0002'),
-('EST0003', 'MAT0001'), 
-('EST0003', 'MAT0002'),
-('EST0070', 'MAT0001'), 
-('EST0070', 'MAT0002'),
-('EST0071', 'MAT0001'), 
-('EST0071', 'MAT0002'),
-('EST0004', 'MAT0003'), 
-('EST0004', 'MAT0004'),
-('EST0005', 'MAT0003'), 
-('EST0005', 'MAT0004'),
-('EST0006', 'MAT0003'), 
-('EST0006', 'MAT0004');
 
 -- CALIFICACIONES (Agregados los registros completos asociados a los alumnos activos)
 INSERT INTO CALIFICACIONES (id_calificacion, parcial_uno, parcial_dos, parcial_tres, Calificaciones, No_CuentaEstuudiante, ID_MateriaC) VALUES 
