@@ -389,10 +389,18 @@ SELECT * FROM CALIFICACIONES;
 
 --Obtner los datos de la universidad de origen de los alumnos que participan en la movilidad 
 Select UNIVERSIDAD.NombreU, UNIVERSIDAD.Estado, UNIVERSIDAD.Pais, FACULTAD.NombreF, CARRERA.NombreC, CARRERA.Tem_Carrera
+<<<<<<< HEAD
 from ESTUDIANTES
 Inner join CARRERA on ESTUDIANTES.id_CarreraE = CARRERA.ID_Carrera
 Inner join FACULTAD on CARRERA.ID_FacultadC = FACULTAD.ID_Facultad
 Inner join UNIVERSIDAD on FACULTAD.No_Universidad = UNIVERSIDAD.No_Universidad
+=======
+
+from ESTUDIANTES --1
+Inner join CARRERA on ESTUDIANTES.id_CarreraE = CARRERA.ID_Carrera 
+Inner join FACULTAD on CARRERA.ID_FacultadC = FACULTAD.ID_Facultad 
+Inner join UNIVERSIDAD on FACULTAD.No_Universidad = UNIVERSIDAD.No_Universidad 
+>>>>>>> 7cb4d787a34121a411300194fa512da77816d8e2
 
 WHERE ESTUDIANTES.No_CuentaEstuudiante IN (SELECT No_CuentaEstuudianteEM FROM ESTUDIANTE_MOVILIDAD)
 

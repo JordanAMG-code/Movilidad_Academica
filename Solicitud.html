@@ -211,6 +211,28 @@ footer img {
     opacity: 0.8;
     filter: grayscale(20%);
 }
+    /*========================Boton de regresar general==========================*/
+    /* Estilos para el botón de regresar */
+.boton-regresar {
+    position: fixed;      /* Lo fija en la pantalla */
+    bottom: 20px;         /* Separación desde abajo */
+    left: 20px;           /* Separación desde la izquierda */
+    background-color: #ffffff; /* Color verde, ajústalo al de tu página */
+    color: rgb(0, 0, 0);
+    padding: 10px 15px;
+    text-decoration: none; /* Quita la línea de abajo del enlace */
+    border-radius: 5px;    /* Bordes redondeados */
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombreado para que resalte */
+    transition: background-color 0.3s ease; /* Efecto suave al pasar el mouse */
+    z-index: 1000;        /* Asegura que esté por encima de otros elementos */
+}
+
+/* Efecto al pasar el cursor por encima */
+.boton-regresar:hover {
+    background-color: #429b48; /* Un verde más oscuro */
+}
 </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -391,9 +413,11 @@ footer img {
         </div>
     </form>
 
+    <a href="javascript:history.back()" class="boton-regresar">
+        &#8592; Regresar
+    </a>
+</body>
     <footer>
         <img src="Carpetadeimagenes/pertenenciaudc.png" width="200" alt="Pertenencia">
     </footer>
-
-</body>
 </html>
