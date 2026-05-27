@@ -393,6 +393,7 @@ from ESTUDIANTES
 Inner join CARRERA on ESTUDIANTES.id_CarreraE = CARRERA.ID_Carrera
 Inner join FACULTAD on CARRERA.ID_FacultadC = FACULTAD.ID_Facultad
 Inner join UNIVERSIDAD on FACULTAD.No_Universidad = UNIVERSIDAD.No_Universidad
+
 WHERE ESTUDIANTES.No_CuentaEstuudiante IN (SELECT No_CuentaEstuudianteEM FROM ESTUDIANTE_MOVILIDAD)
 
 Select UNIVERSIDAD.NombreU, UNIVERSIDAD.Pais, UNIVERSIDAD.Estado, FACULTAD.NombreF, CARRERA.NombreC, 
