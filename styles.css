@@ -73,16 +73,15 @@
             flex-wrap: wrap;
         }
 
-        .menu-botonesInicio {
-            display: flex;
-            flex-direction: column; /* <-- ESTO LOS APILA UNO ARRIBA DEL OTRO */
-            align-items: center;    /* <-- ESTO LOS MANTIENE CENTRADOS HORIZONTALMENTE */
-            justify-content: center;
-            gap: 20px;              /* Esto mantendrá el espacio de 20px, pero ahora hacia abajo */
-            padding: 00px 20px 20px 20px;  /* Arriba, Derecha, Abajo, Izquierda */
-            
-        }
-
+.menu-botonesInicio {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    justify-content: center;
+    gap: 15px;              /* <--- Reduje esto de 20 a 15 para juntar un poco los botones */
+    padding: 0px 20px 20px 20px; 
+    margin-top: -20px;      /* <--- Esto "jala" los botones hacia la imagen de Bienvenido */
+}
         .BotonInicio{
             background-color: #2d4143; 
             color: white;
@@ -142,12 +141,14 @@
         }
 
         /*==============Seccion de bienvenido===================*/
+/*==============Seccion de bienvenido===================*/
         .IMGBienvenido{
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* esto es para ponerlo mas arriba */
-            padding: 10px;
-        }
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; 
+        padding: 10px;
+        margin-top: -30px; /* <--- Esto "jala" la imagen hacia el encabezado */
+    }
 
         .Bienvenido{
             max-width: 350px;
@@ -257,3 +258,26 @@
         margin-top: 10px;     /* Separa el título un poco de la parte superior */
         margin-bottom: 5px;   /* Reduce el espacio exagerado debajo del título */
     }
+    
+    /*========================Boton de regresar general==========================*/
+    /* Estilos para el botón de regresar */
+.boton-regresar {
+    position: fixed;      /* Lo fija en la pantalla */
+    bottom: 20px;         /* Separación desde abajo */
+    left: 20px;           /* Separación desde la izquierda */
+    background-color: #ffffff; /* Color verde, ajústalo al de tu página */
+    color: rgb(0, 0, 0);
+    padding: 10px 15px;
+    text-decoration: none; /* Quita la línea de abajo del enlace */
+    border-radius: 5px;    /* Bordes redondeados */
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombreado para que resalte */
+    transition: background-color 0.3s ease; /* Efecto suave al pasar el mouse */
+    z-index: 1000;        /* Asegura que esté por encima de otros elementos */
+}
+
+/* Efecto al pasar el cursor por encima */
+.boton-regresar:hover {
+    background-color: #429b48; /* Un verde más oscuro */
+}

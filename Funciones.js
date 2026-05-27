@@ -52,5 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
 });
+
+//================Boton regresar para cada unos de las paginas==============//
+
