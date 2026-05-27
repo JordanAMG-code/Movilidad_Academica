@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Movilidad UCOL</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="Funciones.js"></script>
+    <title>Panel de Administrador - Movilidad UCOL</title>
     <style>
         /* Estilos base manteniendo la línea visual institucional de UCOL */
         body {
@@ -43,17 +41,6 @@
             margin-bottom: 5px;
         }
 
-        .db-tag {
-            background-color: #2e7d32;
-            color: #ffffff;
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            margin-bottom: 25px;
-        }
-
         /* Tarjetas de Métricas */
         .dashboard-cards {
             display: grid;
@@ -76,11 +63,12 @@
             color: #1b5e20;
         }
 
-        /* NUEVO: Menú de Navegación por Secciones (Botones solicitados) */
+        /* Menú de Navegación por Secciones */
         .secciones-nav {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
             margin: 30px 0;
             padding-bottom: 20px;
             border-bottom: 2px solid #e0e6e0;
@@ -104,14 +92,13 @@
             transform: translateY(-2px);
         }
 
-        /* Clase para resaltar el botón de la sección que está abierta actualmente */
         .btn-seccion.activo {
             background-color: #2e7d32;
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
         }
 
-        /* NUEVO: Contenedores de contenido (Ocultos por defecto) */
+        /* Contenedores de contenido */
         .contenido-seccion {
             display: none;
             animation: fadeIn 0.5s ease;
@@ -166,21 +153,10 @@
             color: #1b5e20;
         }
 
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .status-badge.fase1 { background-color: #ffe082; color: #816100; }
-        .status-badge.fase2 { background-color: #bbdefb; color: #0d47a1; }
-        
-        .lang-badge {
-            background-color: #e0f2f1;
-            color: #004d40;
-            padding: 2px 6px;
-            border-radius: 4px;
+        /* Botones de acción en tabla */
+        .acciones-td {
+            display: flex;
+            gap: 8px;
         }
 
         .btn-action {
@@ -191,6 +167,83 @@
             font-weight: bold;
             background-color: #468122;
             color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-action:hover {
+            background-color: #336118;
+        }
+
+        .btn-action.delete {
+            background-color: #d32f2f;
+        }
+
+        .btn-action.delete:hover {
+            background-color: #9a0007;
+        }
+
+        /* Estilos de Formularios */
+        .form-container {
+            background: #f9fbf9;
+            border: 1px solid #e0e6e0;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1b5e20;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border: 1px solid #c8d6c8;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 5px rgba(46, 125, 50, 0.2);
+        }
+
+        .btn-submit {
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1b5e20;
         }
 
         .btn-logout {
@@ -216,153 +269,206 @@
     <div class="admin-container">
         <header class="header-logo">
             <img src="Carpetadeimagenes/UDC-logo.png" alt="Logo UCOL">
-            <h1>Panel de Control del Administrador</h1>
-            
+            <h1>Panel de Administrador</h1>
         </header>
 
         <div class="dashboard-cards">
-            <div class="card"><h3>Universidades</h3><div class="numero">5</div></div>
-            <div class="card"><h3>Docentes</h3><div class="numero">24</div></div>
-            <div class="card"><h3>Alumnos</h3><div class="numero">8</div></div>
-            <div class="card"><h3>Total Movilidades</h3><div class="numero">5</div></div>
+            <div class="card"><h3>Total Alumnos</h3><div class="numero">142</div></div>
+            <div class="card"><h3>Docentes Activos</h3><div class="numero">35</div></div>
+            <div class="card"><h3>Convenios</h3><div class="numero">89</div></div>
+            <div class="card"><h3>Solicitudes Nuevas</h3><div class="numero">12</div></div>
         </div>
 
         <nav class="secciones-nav">
-            <button type="button" id="btn-solicitudes" class="btn-seccion" onclick="cambiarSeccion('solicitudes')">
-                 Solicitudes de Movilidad
+            <button type="button" id="btn-monitoreo" class="btn-seccion activo" onclick="cambiarSeccion('monitoreo')">
+                 Directorio Alumnos
             </button>
-            <button type="button" id="btn-monitoreo" class="btn-seccion" onclick="cambiarSeccion('monitoreo')">
-                 Monitoreo General
+            <button type="button" id="btn-lista-docentes" class="btn-seccion" onclick="cambiarSeccion('lista-docentes')">
+                 Directorio Docentes
+            </button>
+            <button type="button" id="btn-add-alumno" class="btn-seccion" onclick="cambiarSeccion('add-alumno')">
+                 Agregar Alumno
+            </button>
+            <button type="button" id="btn-add-docente" class="btn-seccion" onclick="cambiarSeccion('add-docente')">
+                 Agregar Docente
             </button>
         </nav>
 
-        <div id="seccion-solicitudes" class="contenido-seccion">
-            <h2>Procesos y Solicitudes de Alta (Tabla: MOVILIDAD)</h2>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Movilidad</th>
-                            <th>Ciclo Escolar</th>
-                            <th>Contacto Emergencia</th>
-                            <th>Gastos</th>
-                            <th>Idioma Requerido</th>
-                            <th>Fase Análisis</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-mono">MOV0001</td>
-                            <td>2025-2</td>
-                            <td>Pedro Gutiérrez (3121592634)</td>
-                            <td>Madre/Padre</td>
-                            <td><span class="lang-badge">Español C2</span></td>
-                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
-                            <td><button class="btn-action" onclick="alert('Gestionando MOV0001')">Validar</button></td>
-                        </tr>
-                        <tr>
-                            <td class="text-mono">MOV0002</td>
-                            <td>2026-1</td>
-                            <td>Martha Ramos (3123571113)</td>
-                            <td>Propios</td>
-                            <td><span class="lang-badge">Inglés B2</span></td>
-                            <td><span class="status-badge fase2">Aprobación Académica (2)</span></td>
-                            <td><button class="btn-action" onclick="alert('Gestionando MOV0002')">Validar</button></td>
-                        </tr>
-                        <tr>
-                            <td class="text-mono">MOV0003</td>
-                            <td>2026-1</td>
-                            <td>Jorge González (3141112223)</td>
-                            <td>Familiares</td>
-                            <td><span class="lang-badge">Español C1</span></td>
-                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
-                            <td><button class="btn-action" onclick="alert('Gestionando MOV0003')">Validar</button></td>
-                        </tr>
-                        <tr>
-                            <td class="text-mono">MOV0004</td>
-                            <td>2026-1</td>
-                            <td>Alicia Pérez (3129998877)</td>
-                            <td>Terceros</td>
-                            <td><span class="lang-badge">Inglés C1</span></td>
-                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
-                            <td><button class="btn-action" onclick="alert('Gestionando MOV0004')">Validar</button></td>
-                        </tr>
-                        <tr>
-                            <td class="text-mono">MOV0005</td>
-                            <td>2026-1</td>
-                            <td>Roberto Rodríguez (3128887766)</td>
-                            <td>Madre/Padre</td>
-                            <td><span class="lang-badge">Inglés B2</span></td>
-                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
-                            <td><button class="btn-action" onclick="alert('Gestionando MOV0005')">Validar</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div id="seccion-monitoreo" class="contenido-seccion">
-            <h2>Monitoreo de Alumnos Vinculados (Tabla: ESTUDIANTE_MOVILIDAD)</h2>
+        <div id="seccion-monitoreo" class="contenido-seccion" style="display: block;">
+            <h2>Alumnos Vinculados en Movilidad</h2>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>No. Cuenta</th>
                             <th>Alumno</th>
-                            <th>Nacionalidad</th>
+                            <th>Facultad</th>
                             <th>Semestre</th>
-                            <th>ID Movilidad</th>
-                            <th>Correo Electrónico</th>
+                            <th>Docente Tutor</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="text-mono">EST0012</td>
                             <td>David Gutiérrez Navarro</td>
-                            <td>Mexicana</td>
+                            <td>Ingeniería Civil</td>
                             <td>4° Semestre</td>
-                            <td class="text-mono" style="color:#2e7d32">MOV0001</td>
-                            <td>david.gut@estudiante.com</td>
+                            <td>Dr. Pedro Montes</td>
+                            <td class="acciones-td">
+                                <button class="btn-action">Editar</button>
+                                <button class="btn-action delete" onclick="eliminarRegistro(this, 'Alumno')">Eliminar</button>
+                            </td>
                         </tr>
                         <tr>
                             <td class="text-mono">EST0030</td>
                             <td>Lucía Ramos Cortés</td>
-                            <td>Mexicana</td>
+                            <td>Medicina</td>
                             <td>5° Semestre</td>
-                            <td class="text-mono" style="color:#2e7d32">MOV0002</td>
-                            <td>lucia.ram.est@estudiante.com</td>
+                            <td>Dra. Alma Rosa</td>
+                            <td class="acciones-td">
+                                <button class="btn-action">Editar</button>
+                                <button class="btn-action delete" onclick="eliminarRegistro(this, 'Alumno')">Eliminar</button>
+                            </td>
                         </tr>
                         <tr>
                             <td class="text-mono">EST0006</td>
                             <td>Carlos González Cruz</td>
-                            <td>Mexicana</td>
+                            <td>Telemática</td>
                             <td>8° Semestre</td>
-                            <td class="text-mono" style="color:#2e7d32">MOV0003</td>
-                            <td>carlos.gonz@estudiante.com</td>
-                        </tr>
-                        <tr>
-                            <td class="text-mono">EST0070</td>
-                            <td>Luis Pérez Pérez</td>
-                            <td>Mexicana</td>
-                            <td>6° Semestre</td>
-                            <td class="text-mono" style="color:#2e7d32">MOV0004</td>
-                            <td>luis.perez@estudiante.com</td>
-                        </tr>
-                        <tr>
-                            <td class="text-mono">EST0071</td>
-                            <td>María Rodríguez Pérez</td>
-                            <td>Mexicana</td>
-                            <td>6° Semestre</td>
-                            <td class="text-mono" style="color:#2e7d32">MOV0005</td>
-                            <td>maria.rod@estudiante.com</td>
+                            <td>Mtro. Luis Silva</td>
+                            <td class="acciones-td">
+                                <button class="btn-action">Editar</button>
+                                <button class="btn-action delete" onclick="eliminarRegistro(this, 'Alumno')">Eliminar</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <button class="btn-logout" type="button" onclick="window.location.href='Inicio.html'">Cerrar Sesión Admin</button>
+        <div id="seccion-lista-docentes" class="contenido-seccion">
+            <h2>Directorio de Docentes Evaluadores / Tutores</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No. Trabajador</th>
+                            <th>Grado y Nombre</th>
+                            <th>Dependencia</th>
+                            <th>Correo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-mono">DOC1020</td>
+                            <td>Dr. Pedro Montes</td>
+                            <td>Facultad de Ingeniería Civil</td>
+                            <td>pmontes@ucol.mx</td>
+                            <td class="acciones-td">
+                                <button class="btn-action">Editar</button>
+                                <button class="btn-action delete" onclick="eliminarRegistro(this, 'Docente')">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">DOC1045</td>
+                            <td>Dra. Alma Rosa</td>
+                            <td>Facultad de Medicina</td>
+                            <td>arosa@ucol.mx</td>
+                            <td class="acciones-td">
+                                <button class="btn-action">Editar</button>
+                                <button class="btn-action delete" onclick="eliminarRegistro(this, 'Docente')">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">DOC1088</td>
+                            <td>Mtro. Luis Silva</td>
+                            <td>Facultad de Telemática</td>
+                            <td>lsilva@ucol.mx</td>
+                            <td class="acciones-td">
+                                <button class="btn-action">Editar</button>
+                                <button class="btn-action delete" onclick="eliminarRegistro(this, 'Docente')">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="seccion-add-alumno" class="contenido-seccion">
+            <h2>Registro de Nuevo Alumno en Movilidad</h2>
+            <div class="form-container">
+                <form onsubmit="guardarDatos(event, 'Alumno')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="no_cuenta">Número de Cuenta / Matrícula</label>
+                            <input type="text" id="no_cuenta" placeholder="Ej. 20182456" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre_alumno">Nombre Completo</label>
+                            <input type="text" id="nombre_alumno" placeholder="Nombre(s) y Apellidos" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="facultad_alumno">Facultad</label>
+                            <select id="facultad_alumno" required>
+                                <option value="">Seleccione una facultad...</option>
+                                <option value="telematica">Facultad de Telemática</option>
+                                <option value="medicina">Facultad de Medicina</option>
+                                <option value="derecho">Facultad de Derecho</option>
+                                <option value="civil">Facultad de Ingeniería Civil</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="semestre_alumno">Semestre a cursar</label>
+                            <input type="number" id="semestre_alumno" min="1" max="10" placeholder="Ej. 5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correo_alumno">Correo Electrónico Institucional</label>
+                            <input type="email" id="correo_alumno" placeholder="ejemplo@ucol.mx" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nacionalidad">Nacionalidad / Procedencia</label>
+                            <input type="text" id="nacionalidad" placeholder="Ej. Mexicana / Colombia" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Registrar Alumno</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="seccion-add-docente" class="contenido-seccion">
+            <h2>Alta de Docente / Tutor Evaluador</h2>
+            <div class="form-container">
+                <form onsubmit="guardarDatos(event, 'Docente')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="no_trabajador">Número de Trabajador</label>
+                            <input type="text" id="no_trabajador" placeholder="Ej. 12345" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre_docente">Grado y Nombre Completo</label>
+                            <input type="text" id="nombre_docente" placeholder="Ej. Dr. Juan Pérez" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="dependencia">Facultad o Dependencia de Adscripción</label>
+                            <input type="text" id="dependencia" placeholder="Ej. Facultad de Ciencias" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correo_docente">Correo Electrónico</label>
+                            <input type="email" id="correo_docente" placeholder="docente@ucol.mx" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono_docente">Teléfono / Extensión</label>
+                            <input type="tel" id="telefono_docente" placeholder="Ej. 312 316 1000 Ext 123">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Registrar Docente</button>
+                </form>
+            </div>
+        </div>
+
+        <button class="btn-logout" type="button" onclick="window.location.href='Inicio.html'">Cerrar Sesión Administrador</button>
     </div>
 
     <footer>
@@ -371,24 +477,62 @@
 
     <script>
         function cambiarSeccion(seccion) {
-            // Ocultar ambas secciones primero
-            document.getElementById('seccion-solicitudes').style.display = 'none';
+            // Ocultar todas las secciones
             document.getElementById('seccion-monitoreo').style.display = 'none';
+            document.getElementById('seccion-lista-docentes').style.display = 'none';
+            document.getElementById('seccion-add-alumno').style.display = 'none';
+            document.getElementById('seccion-add-docente').style.display = 'none';
 
-            // Quitar la clase 'activo' de ambos botones
-            document.getElementById('btn-solicitudes').classList.remove('activo');
+            // Quitar clase activa de todos los botones
             document.getElementById('btn-monitoreo').classList.remove('activo');
+            document.getElementById('btn-lista-docentes').classList.remove('activo');
+            document.getElementById('btn-add-alumno').classList.remove('activo');
+            document.getElementById('btn-add-docente').classList.remove('activo');
 
-            // Mostrar la sección seleccionada y activar su respectivo botón
-            if (seccion === 'solicitudes') {
-                document.getElementById('seccion-solicitudes').style.display = 'block';
-                document.getElementById('btn-solicitudes').classList.add('activo');
-            } else if (seccion === 'monitoreo') {
+            // Mostrar la sección seleccionada y activar su botón correspondiente
+            if (seccion === 'monitoreo') {
                 document.getElementById('seccion-monitoreo').style.display = 'block';
                 document.getElementById('btn-monitoreo').classList.add('activo');
+            } else if (seccion === 'lista-docentes') {
+                document.getElementById('seccion-lista-docentes').style.display = 'block';
+                document.getElementById('btn-lista-docentes').classList.add('activo');
+            } else if (seccion === 'add-alumno') {
+                document.getElementById('seccion-add-alumno').style.display = 'block';
+                document.getElementById('btn-add-alumno').classList.add('activo');
+            } else if (seccion === 'add-docente') {
+                document.getElementById('seccion-add-docente').style.display = 'block';
+                document.getElementById('btn-add-docente').classList.add('activo');
             }
         }
 
+        // Función para eliminar una fila de la tabla (Alumno o Docente)
+        function eliminarRegistro(boton, tipo) {
+            // Se usa confirm para asegurar que el usuario no haga clic por error
+            if (confirm(`¿Estás seguro de que deseas dar de baja y eliminar a este ${tipo}? Esta acción no se puede deshacer.`)) {
+                // Seleccionamos el contenedor "tr" (fila) más cercano al botón que se presionó
+                let fila = boton.closest('tr');
+                
+                // Eliminamos la fila del HTML
+                fila.remove();
+                
+                // Mostramos mensaje de éxito
+                alert(`${tipo} eliminado correctamente del sistema.`);
+            }
+        }
+
+        // Función simulada para el guardado de formularios
+        function guardarDatos(event, tipo) {
+            event.preventDefault(); // Evita que la página se recargue
+            alert(tipo + ' registrado exitosamente en el sistema.');
+            event.target.reset(); // Limpia los campos del formulario
+            
+            // Regresar a la vista principal correspondiente
+            if(tipo === 'Alumno') {
+                cambiarSeccion('monitoreo');
+            } else {
+                cambiarSeccion('lista-docentes');
+            }
+        }
     </script>
 </body>
 </html>
