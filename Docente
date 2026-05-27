@@ -172,6 +172,16 @@
             border-radius: 4px;
         }
 
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #468122;
+            color: white;
+        }
+
         .btn-logout {
             display: block;
             margin: 40px auto 0 auto;
@@ -201,13 +211,13 @@
         <div class="dashboard-cards">
             <div class="card"><h3>Universidades Destino</h3><div class="numero">5</div></div>
             <div class="card"><h3>Alumnos Asignados</h3><div class="numero">8</div></div>
-            <div class="card"><h3>Solicitudes Pendientes</h3><div class="numero">4</div></div>
+            <div class="card"><h3>Solicitudes por Validar</h3><div class="numero">4</div></div>
             <div class="card"><h3>Tutorados Activos</h3><div class="numero">5</div></div>
         </div>
 
         <nav class="secciones-nav">
             <button type="button" id="btn-solicitudes" class="btn-seccion" onclick="cambiarSeccion('solicitudes')">
-                 Visualizar Solicitudes
+                 Validación de Solicitudes
             </button>
             <button type="button" id="btn-monitoreo" class="btn-seccion" onclick="cambiarSeccion('monitoreo')">
                  Monitoreo de Alumnos
@@ -215,7 +225,7 @@
         </nav>
 
         <div id="seccion-solicitudes" class="contenido-seccion">
-            <h2>Consulta de Procesos de Movilidad (Vista de Docente)</h2>
+            <h2>Gestión y Validación de Procesos de Movilidad</h2>
             <div class="table-container">
                 <table>
                     <thead>
@@ -226,6 +236,7 @@
                             <th>Gastos</th>
                             <th>Idioma Requerido</th>
                             <th>Fase Análisis</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -236,6 +247,7 @@
                             <td>Madre/Padre</td>
                             <td><span class="lang-badge">Español C2</span></td>
                             <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                            <td><button class="btn-action" onclick="validarEstudiante('MOV0001')">Validar</button></td>
                         </tr>
                         <tr>
                             <td class="text-mono">MOV0002</td>
@@ -244,6 +256,7 @@
                             <td>Propios</td>
                             <td><span class="lang-badge">Inglés B2</span></td>
                             <td><span class="status-badge fase2">Aprobación Académica (2)</span></td>
+                            <td><button class="btn-action" onclick="validarEstudiante('MOV0002')">Validar</button></td>
                         </tr>
                         <tr>
                             <td class="text-mono">MOV0003</td>
@@ -252,6 +265,7 @@
                             <td>Familiares</td>
                             <td><span class="lang-badge">Español C1</span></td>
                             <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                            <td><button class="btn-action" onclick="validarEstudiante('MOV0003')">Validar</button></td>
                         </tr>
                         <tr>
                             <td class="text-mono">MOV0004</td>
@@ -260,6 +274,7 @@
                             <td>Terceros</td>
                             <td><span class="lang-badge">Inglés C1</span></td>
                             <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                            <td><button class="btn-action" onclick="validarEstudiante('MOV0004')">Validar</button></td>
                         </tr>
                         <tr>
                             <td class="text-mono">MOV0005</td>
@@ -268,6 +283,7 @@
                             <td>Madre/Padre</td>
                             <td><span class="lang-badge">Inglés B2</span></td>
                             <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                            <td><button class="btn-action" onclick="validarEstudiante('MOV0005')">Validar</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -356,6 +372,11 @@
                 document.getElementById('seccion-monitoreo').style.display = 'block';
                 document.getElementById('btn-monitoreo').classList.add('activo');
             }
+        }
+
+        // Nueva función simulada para la validación por parte del docente
+        function validarEstudiante(idMovilidad) {
+            alert('Docente gestionando y validando la solicitud: ' + idMovilidad);
         }
     </script>
 </body>
