@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Docentes - Movilidad UCOL</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="Funciones.js"></script>
+    <style>
+        /* Estilos base manteniendo la línea visual institucional de UCOL */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8f5e9; 
+            color: #2e4a2e;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-logo img {
+            height: 150px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #1b5e20; 
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        /* Tarjetas de Métricas */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #f9fbf9;
+            border: 1px solid #e0e6e0;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .card .numero {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        /* Menú de Navegación por Secciones */
+        .secciones-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e6e0;
+        }
+
+        .btn-seccion {
+            background-color: #ffffff;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .btn-seccion:hover {
+            background-color: #f1f8e9;
+            transform: translateY(-2px);
+        }
+
+        /* Clase para resaltar el botón de la sección activa */
+        .btn-seccion.activo {
+            background-color: #2e7d32;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        /* Contenedores de contenido (Ocultos por defecto) */
+        .contenido-seccion {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #2e7d32;
+            font-size: 1.3rem;
+            border-left: 5px solid #2e7d32;
+            padding-left: 15px;
+            margin: 20px 0;
+            background: #f1f8e9;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        /* Estilos de tablas */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border: 1px solid #e0e6e0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px 15px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e6e0;
+        }
+
+        .text-mono {
+            font-family: monospace;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .status-badge.fase1 { background-color: #ffe082; color: #816100; }
+        .status-badge.fase2 { background-color: #bbdefb; color: #0d47a1; }
+        
+        .lang-badge {
+            background-color: #e0f2f1;
+            color: #004d40;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .btn-logout {
+            display: block;
+            margin: 40px auto 0 auto;
+            background-color: #c62828;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <header class="header-logo">
+            <img src="Carpetadeimagenes/UDC-logo.png" alt="Logo UCOL">
+            <h1>Panel de Control del Docente</h1>
+        </header>
+
+        <div class="dashboard-cards">
+            <div class="card"><h3>Universidades Destino</h3><div class="numero">5</div></div>
+            <div class="card"><h3>Alumnos Asignados</h3><div class="numero">8</div></div>
+            <div class="card"><h3>Solicitudes Pendientes</h3><div class="numero">4</div></div>
+            <div class="card"><h3>Tutorados Activos</h3><div class="numero">5</div></div>
+        </div>
+
+        <nav class="secciones-nav">
+            <button type="button" id="btn-solicitudes" class="btn-seccion" onclick="cambiarSeccion('solicitudes')">
+                 Visualizar Solicitudes
+            </button>
+            <button type="button" id="btn-monitoreo" class="btn-seccion" onclick="cambiarSeccion('monitoreo')">
+                 Monitoreo de Alumnos
+            </button>
+        </nav>
+
+        <div id="seccion-solicitudes" class="contenido-seccion">
+            <h2>Consulta de Procesos de Movilidad (Vista de Docente)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Movilidad</th>
+                            <th>Ciclo Escolar</th>
+                            <th>Contacto Emergencia</th>
+                            <th>Gastos</th>
+                            <th>Idioma Requerido</th>
+                            <th>Fase Análisis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-mono">MOV0001</td>
+                            <td>2025-2</td>
+                            <td>Pedro Gutiérrez (3121592634)</td>
+                            <td>Madre/Padre</td>
+                            <td><span class="lang-badge">Español C2</span></td>
+                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">MOV0002</td>
+                            <td>2026-1</td>
+                            <td>Martha Ramos (3123571113)</td>
+                            <td>Propios</td>
+                            <td><span class="lang-badge">Inglés B2</span></td>
+                            <td><span class="status-badge fase2">Aprobación Académica (2)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">MOV0003</td>
+                            <td>2026-1</td>
+                            <td>Jorge González (3141112223)</td>
+                            <td>Familiares</td>
+                            <td><span class="lang-badge">Español C1</span></td>
+                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">MOV0004</td>
+                            <td>2026-1</td>
+                            <td>Alicia Pérez (3129998877)</td>
+                            <td>Terceros</td>
+                            <td><span class="lang-badge">Inglés C1</span></td>
+                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">MOV0005</td>
+                            <td>2026-1</td>
+                            <td>Roberto Rodríguez (3128887766)</td>
+                            <td>Madre/Padre</td>
+                            <td><span class="lang-badge">Inglés B2</span></td>
+                            <td><span class="status-badge fase1">Análisis Inicial (1)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="seccion-monitoreo" class="contenido-seccion">
+            <h2>Alumnos Vinculados en Movilidad (Vista de Docente)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No. Cuenta</th>
+                            <th>Alumno</th>
+                            <th>Nacionalidad</th>
+                            <th>Semestre</th>
+                            <th>ID Movilidad</th>
+                            <th>Correo Electrónico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-mono">EST0012</td>
+                            <td>David Gutiérrez Navarro</td>
+                            <td>Mexicana</td>
+                            <td>4° Semestre</td>
+                            <td class="text-mono" style="color:#2e7d32">MOV0001</td>
+                            <td>david.gut@estudiante.com</td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">EST0030</td>
+                            <td>Lucía Ramos Cortés</td>
+                            <td>Mexicana</td>
+                            <td>5° Semestre</td>
+                            <td class="text-mono" style="color:#2e7d32">MOV0002</td>
+                            <td>lucia.ram.est@estudiante.com</td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">EST0006</td>
+                            <td>Carlos González Cruz</td>
+                            <td>Mexicana</td>
+                            <td>8° Semestre</td>
+                            <td class="text-mono" style="color:#2e7d32">MOV0003</td>
+                            <td>carlos.gonz@estudiante.com</td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">EST0070</td>
+                            <td>Luis Pérez Pérez</td>
+                            <td>Mexicana</td>
+                            <td>6° Semestre</td>
+                            <td class="text-mono" style="color:#2e7d32">MOV0004</td>
+                            <td>luis.perez@estudiante.com</td>
+                        </tr>
+                        <tr>
+                            <td class="text-mono">EST0071</td>
+                            <td>María Rodríguez Pérez</td>
+                            <td>Mexicana</td>
+                            <td>6° Semestre</td>
+                            <td class="text-mono" style="color:#2e7d32">MOV0005</td>
+                            <td>maria.rod@estudiante.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button class="btn-logout" type="button" onclick="window.location.href='Inicio.html'">Cerrar Sesión Docente</button>
+    </div>
+
+    <footer>
+        <img src="Carpetadeimagenes/pertenenciaudc.png" width="200" alt="Pertenencia que transforma">
+    </footer>
+
+    <script>
+        function cambiarSeccion(seccion) {
+            document.getElementById('seccion-solicitudes').style.display = 'none';
+            document.getElementById('seccion-monitoreo').style.display = 'none';
+
+            document.getElementById('btn-solicitudes').classList.remove('activo');
+            document.getElementById('btn-monitoreo').classList.remove('activo');
+
+            if (seccion === 'solicitudes') {
+                document.getElementById('seccion-solicitudes').style.display = 'block';
+                document.getElementById('btn-solicitudes').classList.add('activo');
+            } else if (seccion === 'monitoreo') {
+                document.getElementById('seccion-monitoreo').style.display = 'block';
+                document.getElementById('btn-monitoreo').classList.add('activo');
+            }
+        }
+    </script>
+</body>
+</html>
