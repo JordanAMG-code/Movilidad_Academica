@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (botonVisitante) {
         botonVisitante.addEventListener("click", () => {
             // Reemplazamos la ruta por el link externo
-            window.location.href = "https://www.ucol.mx/";
+            window.location.href = "ExplorarConvoca.html";
     });
 }
 /*===========================Inicio de Estudiante=======================//
@@ -192,56 +192,72 @@ function cargarConvocatorias() {
 
             // 2. Diccionario de banderas (Ajusta los nombres de tus imágenes aquí)
             const banderas = {
-                'México': 'mexico.png',
+                'México': 'Carpetadeimagenes/mxBandera.png',
                 'Canadá': 'canada.png',
                 'Italia': 'italia.png',
                 'Colombia': 'colombia.png',
                 'Japón': 'japon.png',
                 'Filipinas': 'filipinas.png',
-                'Sudáfrica': 'sudafrica.png',
-                'Corea del Sur': 'corea.png'
+                'Argentina': 'Bandera_Argentina.jpg',
+                'España': 'Bandera_Espania.jpg'
+                //Estados Unidos
+                //Argentina Bandera_Espania
+                
             };
 
             // 3. Generar el HTML para cada tarjeta
-            let index = 0;
-            for (const key in carrerasAgrupadas) {
-                const info = carrerasAgrupadas[key];
-                const idDetalle = `detalle-${index}`;
+let index = 0;
+// Definimos el diccionario una sola vez
+const mapaBanderas = {
+    'México': 'Carpetadeimagenes/mxBandera.png',
+    'Canadá': 'Carpetadeimagenes/Flag_of_Canada.png',
+    'Italia': 'Carpetadeimagenes/Bandera-Italia.jpg',
+    'Colombia': 'Carpetadeimagenes/BanderaColombia.jpg',
+    'Japón': 'Carpetadeimagenes/JaponBandera.png',
+    'Filipinas': 'Carpetadeimagenes/flagPhilippinas.jpg',
+    'Argentina': 'Carpetadeimagenes/Bandera_Argentina.jpg',
+    'España': 'Carpetadeimagenes/Bandera_Espania.jpg'
+    //Carpetadeimagenes/brasilBandera.png
+    //Carpetadeimagenes/ChinaBandera.jpg
+};
+
+for (const key in carrerasAgrupadas) {
+    const info = carrerasAgrupadas[key];
+    const idDetalle = `detalle-${index}`;
+    
+    // Obtenemos la ruta, si no existe ponemos una por defecto
+    const imagenBandera = mapaBanderas[info.pais] || 'Carpetadeimagenes/default.png';
+
+    // Lista de materias en formato HTML
+    const listaMateriasHTML = info.materias.map(m => 
+        `<li><strong>${m.nombre}</strong> <br><small>Temas: ${m.temas}</small></li>`
+    ).join('');
+
+    const tarjeta = `
+        <div style="background: #e8f5e9; border: 2px solid #cddc39; border-radius: 8px; width: 80%; padding: 15px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px;" onclick="toggleDetalles('${idDetalle}')">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <img src="${imagenBandera}" alt="Bandera ${info.pais}" style="width: 100px; border: 1px solid #ccc;">
+                <div>
+                    <h3 style="margin: 0; color: #2e7d32;">${info.carrera}</h3>
+                    <p style="margin: 5px 0 0 0; font-size: 1.1rem;"><strong>${info.universidad}</strong> - ${info.pais}</p>
+                </div>
+            </div>
+
+            <div id="${idDetalle}" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #2e7d32;">
+                <p><strong>Facultad:</strong> ${info.facultad}</p>
+                <p><strong>Ubicación:</strong> ${info.estado}, ${info.pais}</p>
+                <p><strong>Enfoque de la Carrera:</strong> ${info.temasCarrera}</p>
                 
-                // Si el país no está en el diccionario, ponemos una imagen por defecto
-                const imagenBandera = banderas[info.pais] || 'default.png';
-
-                // Lista de materias en formato HTML
-                const listaMateriasHTML = info.materias.map(m => 
-                    `<li><strong>${m.nombre}</strong> <br><small>Temas: ${m.temas}</small></li>`
-                ).join('');
-
-                const tarjeta = `
-                    <div style="background: #e8f5e9; border: 2px solid #cddc39; border-radius: 8px; width: 80%; padding: 15px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="toggleDetalles('${idDetalle}')">
-                        
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <img src="${imagenBandera}" alt="Bandera ${info.pais}" style="width: 100px; border: 1px solid #ccc;">
-                            <div>
-                                <h3 style="margin: 0; color: #2e7d32;">${info.carrera}</h3>
-                                <p style="margin: 5px 0 0 0; font-size: 1.1rem;"><strong>${info.universidad}</strong> - ${info.pais}</p>
-                            </div>
-                        </div>
-
-                        <div id="${idDetalle}" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #2e7d32;">
-                            <p><strong>Facultad:</strong> ${info.facultad}</p>
-                            <p><strong>Ubicación:</strong> ${info.estado}, ${info.pais}</p>
-                            <p><strong>Enfoque de la Carrera:</strong> ${info.temasCarrera}</p>
-                            
-                            <h4 style="margin-bottom: 5px; color: #1b5e20;">Materias Disponibles:</h4>
-                            <ul style="margin-top: 0;">
-                                ${listaMateriasHTML || '<li>No hay materias registradas aún.</li>'}
-                            </ul>
-                        </div>
-                    </div>
-                `;
-                contenedor.innerHTML += tarjeta;
-                index++;
-            }
+                <h4 style="margin-bottom: 5px; color: #1b5e20;">Materias Disponibles:</h4>
+                <ul style="margin-top: 0;">
+                    ${listaMateriasHTML || '<li>No hay materias registradas aún.</li>'}
+                </ul>
+            </div>
+        </div>
+    `;
+    contenedor.innerHTML += tarjeta;
+    index++;
+}
         })
         .catch(error => console.error("Error al cargar datos:", error));
 }
