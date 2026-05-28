@@ -47,44 +47,54 @@ app.listen(3000, () => {
 
 // Ruta para procesar el inicio de sesión
 app.post('/login', (req, res) => {
-    // Recibimos los datos que mandó el Frontend
     const correo = req.body.correo;
     const contrasena = req.body.contrasena;
 
-    // Tu consulta SQL optimizada con JOINs
+    // Tu consulta SQL actualizada
     const consultaSQL = `
         SELECT 
-            l.correo, 
+            l.correo,
             CASE 
-                WHEN e.correoE IS NOT NULL THEN 'Estudiante' 
-                WHEN d.correo IS NOT NULL THEN 'Docente' 
-                WHEN a.correo IS NOT NULL THEN 'Administrador' 
-                ELSE 'Usuario sin rol asignado' 
-            END AS Tipo_Usuario 
-        FROM login l 
-        LEFT JOIN ESTUDIANTES e ON l.correo = e.correoE 
-        LEFT JOIN DOCENTES d ON l.correo = d.correo 
-        LEFT JOIN ADMINISTRADORES a ON l.correo = a.correo 
+                WHEN e.correoE IS NOT NULL THEN 'Estudiante'
+                WHEN d.correo IS NOT NULL THEN 'Docente'
+                WHEN a.correo IS NOT NULL THEN 'Administrador'
+                ELSE 'Usuario sin rol asignado'
+            END AS Tipo_Usuario,
+            CASE 
+                WHEN e.correoE IS NOT NULL THEN e.No_CuentaEstuudiante
+                WHEN d.correo IS NOT NULL THEN d.No_CuentaDocente
+                WHEN a.correo IS NOT NULL THEN a.matricula_admin
+                ELSE NULL
+            END AS Identificador_ID,
+            CASE 
+                WHEN e.correoE IS NOT NULL THEN e.NombresE
+                WHEN d.correo IS NOT NULL THEN d.NombresD
+                WHEN a.correo IS NOT NULL THEN a.NombresAd
+                ELSE NULL
+            END AS Nombre_Usuario
+        FROM login l
+        LEFT JOIN ESTUDIANTES e ON l.correo = e.correoE
+        LEFT JOIN DOCENTES d ON l.correo = d.correo
+        LEFT JOIN ADMINISTRADORES a ON l.correo = a.correo
         WHERE l.correo = ? AND l.contraseña = ?
     `;
     
-    // Ejecutamos la búsqueda en la base de datos
     db.query(consultaSQL, [correo, contrasena], (error, resultados) => {
         if (error) {
             console.error("Error al consultar la base de datos:", error);
-            return res.status(500).json({ exito: false, mensaje: "Error interno del servidor" });
+            return res.status(500).json({ exito: false, mensaje: "Error interno" });
         }
 
-        // Si el arreglo 'resultados' tiene datos, las credenciales son correctas
         if (resultados.length > 0) {
-            const rolDetectado = resultados[0].Tipo_Usuario; 
+            const usuario = resultados[0];
             
-            // --- ¡AQUÍ ESTÁ LA MAGIA! Guardamos los datos en la sesión ---
-            req.session.usuarioActual = correo;
-            req.session.rolUsuario = rolDetectado;
-            // -------------------------------------------------------------
+            // Guardamos todos tus nuevos datos en la sesión
+            req.session.usuarioActual = usuario.correo;
+            req.session.rolUsuario = usuario.Tipo_Usuario;
+            req.session.nombreUsuario = usuario.Nombre_Usuario;
+            req.session.idUsuario = usuario.Identificador_ID;
             
-            res.json({ exito: true, rol: rolDetectado, mensaje: "Acceso concedido" });
+            res.json({ exito: true, rol: usuario.Tipo_Usuario, mensaje: "Acceso concedido" });
         } else {
             res.json({ exito: false, mensaje: "Credenciales inválidas" });
         }
@@ -118,17 +128,29 @@ app.post('/login', (req, res) => {
 });*/
 
 
-// Ruta para que cualquier página frontend sepa quién está conectado
+// Ruta actualizada para enviar el nombre y el ID
 app.get('/api/usuario-actual', (req, res) => {
     if (req.session.usuarioActual) {
-        // Si hay una sesión activa, mandamos los datos
         res.json({ 
             conectado: true, 
             correo: req.session.usuarioActual, 
-            rol: req.session.rolUsuario 
+            rol: req.session.rolUsuario,
+            nombre: req.session.nombreUsuario,    // Nuevo dato
+            identificador: req.session.idUsuario  // Nuevo dato
         });
     } else {
-        // Si no hay sesión, mandamos un aviso
         res.json({ conectado: false });
     }
+});
+
+// Nueva ruta para destruir la sesión
+app.post('/api/logout', (req, res) => {
+    // Destruye la memoria de la sesión
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ exito: false, mensaje: "Error al cerrar sesión" });
+        }
+        res.clearCookie('connect.sid'); // Limpia la cookie del navegador
+        res.json({ exito: true, mensaje: "Sesión cerrada correctamente" });
+    });
 });

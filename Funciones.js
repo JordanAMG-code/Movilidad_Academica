@@ -107,5 +107,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-//================Boton regresar para cada unos de las paginas==============//
+//==========================================================================//
+// NUEVAS FUNCIONES: SESIÓN Y PERFIL (Pegar al final del archivo)
+//==========================================================================//
+
+// 1. Función para pedir y mostrar los datos del usuario
+function cargarDatosUsuario() {
+    fetch('http://localhost:3000/api/usuario-actual')
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            if (datos.conectado) {
+                // Inyectamos los datos en el HTML
+                document.getElementById('display-nombre').textContent = datos.nombre;
+                document.getElementById('display-id').textContent = datos.identificador;
+            } else {
+                // Si no hay sesión, regresamos al inicio
+                alert("Debes iniciar sesión primero");
+                window.location.href = 'Inicio.html'; 
+            }
+        })
+        .catch(error => console.error("Error al cargar usuario:", error));
+}
+
+// 2. Función para cerrar la sesión
+function cerrarSesion() {
+    fetch('http://localhost:3000/api/logout', {
+        method: 'POST'
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        if (datos.exito) {
+            window.location.href = 'Inicio.html';
+        }
+    })
+    .catch(error => console.error("Error al cerrar sesión:", error));
+}
+
+// 3. Ejecutar la carga de datos SOLO si la página tiene el panel de perfil
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('display-nombre')) {
+        cargarDatosUsuario();
+    }
+});
 
