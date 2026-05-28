@@ -154,3 +154,31 @@ app.post('/api/logout', (req, res) => {
         res.json({ exito: true, mensaje: "Sesión cerrada correctamente" });
     });
 });
+
+// Ruta para obtener todas las carreras de movilidad
+app.get('/api/convocatorias', (req, res) => {
+    const sql = `
+        SELECT 
+            c.NombreC AS Nombre_Carrera,
+            c.Tem_Carrera AS Temas_Carrera,
+            f.NombreF AS Nombre_Facultad,
+            u.NombreU AS Nombre_Universidad,
+            u.Pais AS Pais_Universidad,
+            u.Estado AS Estado_Universidad,
+            m.NombreM AS Nombre_Materia,
+            m.T_Materia AS Temas_Materia
+        FROM CARRERA c
+        INNER JOIN FACULTAD f ON c.ID_FacultadC = f.ID_Facultad
+        INNER JOIN UNIVERSIDAD u ON f.No_Universidad = u.No_Universidad
+        LEFT JOIN MATERIA m ON c.ID_Carrera = m.ID_CarreraM
+        WHERE c.ID_Carrera IN (SELECT ID_CarreraMo FROM MOVILIDAD)
+    `;
+
+    db.query(sql, (error, resultados) => {
+        if (error) {
+            console.error("Error al consultar convocatorias:", error);
+            return res.status(500).json({ exito: false, mensaje: "Error en la base de datos" });
+        }
+        res.json({ exito: true, datos: resultados });
+    });
+});

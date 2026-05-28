@@ -150,3 +150,116 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// =========================================================
+// FUNCIONES PARA EXPLORAR CONVOCATORIAS
+// =========================================================
+
+function cargarConvocatorias() {
+    fetch('http://localhost:3000/api/convocatorias')
+        .then(res => res.json())
+        .then(respuesta => {
+            if (!respuesta.exito) return;
+
+            const datos = respuesta.datos;
+            const contenedor = document.getElementById('contenedor-convocatorias');
+            contenedor.innerHTML = ''; // Limpiamos antes de cargar
+
+            // 1. Agrupar los datos (porque una carrera trae varias filas de materias)
+            const carrerasAgrupadas = {};
+            datos.forEach(fila => {
+                // Creamos una clave única usando la carrera y la universidad
+                const idUnico = fila.Nombre_Carrera + '-' + fila.Nombre_Universidad;
+                
+                if (!carrerasAgrupadas[idUnico]) {
+                    carrerasAgrupadas[idUnico] = {
+                        carrera: fila.Nombre_Carrera,
+                        temasCarrera: fila.Temas_Carrera,
+                        facultad: fila.Nombre_Facultad,
+                        universidad: fila.Nombre_Universidad,
+                        pais: fila.Pais_Universidad,
+                        estado: fila.Estado_Universidad,
+                        materias: []
+                    };
+                }
+                // Si hay una materia, la agregamos al arreglo
+                if (fila.Nombre_Materia) {
+                    carrerasAgrupadas[idUnico].materias.push({
+                        nombre: fila.Nombre_Materia,
+                        temas: fila.Temas_Materia
+                    });
+                }
+            });
+
+            // 2. Diccionario de banderas (Ajusta los nombres de tus imágenes aquí)
+            const banderas = {
+                'México': 'mexico.png',
+                'Canadá': 'canada.png',
+                'Italia': 'italia.png',
+                'Colombia': 'colombia.png',
+                'Japón': 'japon.png',
+                'Filipinas': 'filipinas.png',
+                'Sudáfrica': 'sudafrica.png',
+                'Corea del Sur': 'corea.png'
+            };
+
+            // 3. Generar el HTML para cada tarjeta
+            let index = 0;
+            for (const key in carrerasAgrupadas) {
+                const info = carrerasAgrupadas[key];
+                const idDetalle = `detalle-${index}`;
+                
+                // Si el país no está en el diccionario, ponemos una imagen por defecto
+                const imagenBandera = banderas[info.pais] || 'default.png';
+
+                // Lista de materias en formato HTML
+                const listaMateriasHTML = info.materias.map(m => 
+                    `<li><strong>${m.nombre}</strong> <br><small>Temas: ${m.temas}</small></li>`
+                ).join('');
+
+                const tarjeta = `
+                    <div style="background: #e8f5e9; border: 2px solid #cddc39; border-radius: 8px; width: 80%; padding: 15px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="toggleDetalles('${idDetalle}')">
+                        
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <img src="${imagenBandera}" alt="Bandera ${info.pais}" style="width: 100px; border: 1px solid #ccc;">
+                            <div>
+                                <h3 style="margin: 0; color: #2e7d32;">${info.carrera}</h3>
+                                <p style="margin: 5px 0 0 0; font-size: 1.1rem;"><strong>${info.universidad}</strong> - ${info.pais}</p>
+                            </div>
+                        </div>
+
+                        <div id="${idDetalle}" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #2e7d32;">
+                            <p><strong>Facultad:</strong> ${info.facultad}</p>
+                            <p><strong>Ubicación:</strong> ${info.estado}, ${info.pais}</p>
+                            <p><strong>Enfoque de la Carrera:</strong> ${info.temasCarrera}</p>
+                            
+                            <h4 style="margin-bottom: 5px; color: #1b5e20;">Materias Disponibles:</h4>
+                            <ul style="margin-top: 0;">
+                                ${listaMateriasHTML || '<li>No hay materias registradas aún.</li>'}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                contenedor.innerHTML += tarjeta;
+                index++;
+            }
+        })
+        .catch(error => console.error("Error al cargar datos:", error));
+}
+
+// Función para mostrar/ocultar el panel de detalles al darle clic
+function toggleDetalles(id) {
+    const panel = document.getElementById(id);
+    if (panel.style.display === "none") {
+        panel.style.display = "block";
+    } else {
+        panel.style.display = "none";
+    }
+}
+
+// Ejecutar automáticamente si estamos en la página de Explorar
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('contenedor-convocatorias')) {
+        cargarConvocatorias();
+    }
+});
+
