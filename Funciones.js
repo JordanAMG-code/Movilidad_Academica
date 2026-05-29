@@ -197,11 +197,10 @@ function cargarConvocatorias() {
                 'Italia': 'italia.png',
                 'Colombia': 'colombia.png',
                 'Japón': 'japon.png',
-                'Filipinas': 'filipinas.png',
+                'Estados Unidos': 'Carpetadeimagenes/Bandera_EstadosUnidos.jpg',
                 'Argentina': 'Bandera_Argentina.jpg',
                 'España': 'Bandera_Espania.jpg'
                 //Estados Unidos
-                //Argentina Bandera_Espania
                 
             };
 
@@ -214,7 +213,7 @@ const mapaBanderas = {
     'Italia': 'Carpetadeimagenes/Bandera-Italia.jpg',
     'Colombia': 'Carpetadeimagenes/BanderaColombia.jpg',
     'Japón': 'Carpetadeimagenes/JaponBandera.png',
-    'Filipinas': 'Carpetadeimagenes/flagPhilippinas.jpg',
+    'Estados Unidos': 'Carpetadeimagenes/Bandera_EstadosUnidos.jpg',
     'Argentina': 'Carpetadeimagenes/Bandera_Argentina.jpg',
     'España': 'Carpetadeimagenes/Bandera_Espania.jpg'
     //Carpetadeimagenes/brasilBandera.png
