@@ -182,3 +182,169 @@ app.get('/api/convocatorias', (req, res) => {
         res.json({ exito: true, datos: resultados });
     });
 });
+
+// ========================================================
+// RUTAS PARA EL PANEL DE ADMINISTRADOR
+// ========================================================
+
+// 1. Obtener métricas (Conteo de alumnos y docentes)
+app.get('/api/metricas', (req, res) => {
+    const sql = `
+        SELECT 
+            (SELECT COUNT(*) FROM ESTUDIANTES) AS Total_Estudiantes,
+            (SELECT COUNT(*) FROM DOCENTES) AS Total_Docentes
+    `;
+    db.query(sql, (error, resultados) => {
+        if (error) return res.status(500).json({ exito: false, mensaje: "Error en BD" });
+        res.json(resultados[0]);
+    });
+});
+
+// 2. Obtener lista de Alumnos
+
+// ==========================================
+// RUTA: OBTENER DOCENTES
+// ==========================================
+/*app.get('/api/docentes', async (req, res) => {
+    try {
+        const pool = await poolPromise; 
+        const query = `
+            SELECT 
+                d.No_CuentaDocente,
+                d.NombresD AS Nombre_Docente,
+                c.NombreC AS Carrera,
+                f.NombreF AS Facultad,
+                u.NombreU AS Universidad
+            FROM DOCENTES d
+            INNER JOIN CARRERA c ON d.ID_CarreraD = c.ID_Carrera
+            INNER JOIN FACULTAD f ON c.ID_FacultadC = f.ID_Facultad
+            INNER JOIN UNIVERSIDAD u ON f.No_Universidad = u.No_Universidad;
+        `;
+        const result = await pool.request().query(query);
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error en SQL Docentes:", err);
+        res.status(500).send('Error al obtener docentes');
+    }
+});*/
+
+app.get('/api/docentes', (req, res) => {
+    const query = `
+            SELECT 
+                d.No_CuentaDocente,
+                d.NombresD AS Nombre_Docente,
+                c.NombreC AS Carrera,
+                f.NombreF AS Facultad,
+                u.NombreU AS Universidad
+            FROM DOCENTES d
+            INNER JOIN CARRERA c ON d.ID_CarreraD = c.ID_Carrera
+            INNER JOIN FACULTAD f ON c.ID_FacultadC = f.ID_Facultad
+            INNER JOIN UNIVERSIDAD u ON f.No_Universidad = u.No_Universidad;
+        `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error en SQL Docentes:', err);
+            return res.status(500).json({ error: 'Error al obtener docentes' });
+        }
+        res.json(results);
+    });
+});
+
+// ==========================================
+// RUTA: OBTENER ALUMNOS (CON TODOS LOS CAMPOS)
+// ==========================================
+/*app.get('/api/alumnos', async (req, res) => {
+    try {
+        const pool = await poolPromise; 
+        const query = `
+            SELECT 
+                e.No_CuentaEstuudiante,
+                CONCAT(e.NombresE, ' ', e.P_ApellidoE, ' ', e.S_ApellidoE) AS Nombre_Completo,
+                e.Domicilio,
+                e.Nacionalidad,
+                e.Semestre,
+                e.Num_telefono AS No_Telefono,
+                g.nombre_grupo AS Grupo,
+                c_orig.NombreC AS Carrera_Origen,
+                f_orig.NombreF AS Facultad_Origen,
+                u_orig.NombreU AS Universidad_Origen,
+                m.ID_Movilidad,
+                m.Ciclo_Escolar,
+                m.Analisis_Movilidad,
+                m.Gastos,
+                m.Idioma,
+                m.Nivel_Idioma,
+                CONCAT(m.NombresCE, ' ', m.P_ApellidoCE, ' ', m.S_ApellidoCE) AS Nombre_Contacto_Emergencia,
+                m.Numero_ContactoEmergencia,
+                u_dest.NombreU AS Universidad_Movilidad,
+                f_dest.NombreF AS Facultad_Movilidad,
+                c_dest.NombreC AS Carrera_Movilidad,
+                cal.Calificaciones AS Calificacion_Total
+            FROM ESTUDIANTES e
+            INNER JOIN GRUPOS g ON e.id_grupoE = g.id_grupo
+            INNER JOIN CARRERA c_orig ON e.id_CarreraE = c_orig.ID_Carrera
+            INNER JOIN FACULTAD f_orig ON c_orig.ID_FacultadC = f_orig.ID_Facultad
+            INNER JOIN UNIVERSIDAD u_orig ON f_orig.No_Universidad = u_orig.No_Universidad
+            LEFT JOIN ESTUDIANTE_MOVILIDAD em ON e.No_CuentaEstuudiante = em.No_CuentaEstuudianteEM
+            LEFT JOIN MOVILIDAD m ON em.ID_MovilidadEM = m.ID_Movilidad
+            LEFT JOIN UNIVERSIDAD u_dest ON m.No_UniversidadM = u_dest.No_Universidad
+            LEFT JOIN FACULTAD f_dest ON m.ID_FacultadMo = f_dest.ID_Facultad
+            LEFT JOIN CARRERA c_dest ON m.ID_CarreraMo = c_dest.ID_Carrera
+            LEFT JOIN CALIFICACIONES cal ON e.No_CuentaEstuudiante = cal.No_CuentaEstuudiante;
+        `;
+        const result = await pool.request().query(query);
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error en SQL Alumnos:", err);
+        res.status(500).send('Error al obtener alumnos');
+    }
+});*/
+
+app.get('/api/alumnos', (req, res) => {
+    const query = `
+            SELECT 
+                e.No_CuentaEstuudiante,
+                CONCAT(e.NombresE, ' ', e.P_ApellidoE, ' ', e.S_ApellidoE) AS Nombre_Completo,
+                e.Domicilio,
+                e.Nacionalidad,
+                e.Semestre,
+                e.Num_telefono AS No_Telefono,
+                g.nombre_grupo AS Grupo,
+                c_orig.NombreC AS Carrera_Origen,
+                f_orig.NombreF AS Facultad_Origen,
+                u_orig.NombreU AS Universidad_Origen,
+                m.ID_Movilidad,
+                m.Ciclo_Escolar,
+                m.Analisis_Movilidad,
+                m.Gastos,
+                m.Idioma,
+                m.Nivel_Idioma,
+                CONCAT(m.NombresCE, ' ', m.P_ApellidoCE, ' ', m.S_ApellidoCE) AS Nombre_Contacto_Emergencia,
+                m.Numero_ContactoEmergencia,
+                u_dest.NombreU AS Universidad_Movilidad,
+                f_dest.NombreF AS Facultad_Movilidad,
+                c_dest.NombreC AS Carrera_Movilidad,
+                cal.Calificaciones AS Calificacion_Total
+            FROM ESTUDIANTES e
+            INNER JOIN GRUPOS g ON e.id_grupoE = g.id_grupo
+            INNER JOIN CARRERA c_orig ON e.id_CarreraE = c_orig.ID_Carrera
+            INNER JOIN FACULTAD f_orig ON c_orig.ID_FacultadC = f_orig.ID_Facultad
+            INNER JOIN UNIVERSIDAD u_orig ON f_orig.No_Universidad = u_orig.No_Universidad
+            LEFT JOIN ESTUDIANTE_MOVILIDAD em ON e.No_CuentaEstuudiante = em.No_CuentaEstuudianteEM
+            LEFT JOIN MOVILIDAD m ON em.ID_MovilidadEM = m.ID_Movilidad
+            LEFT JOIN UNIVERSIDAD u_dest ON m.No_UniversidadM = u_dest.No_Universidad
+            LEFT JOIN FACULTAD f_dest ON m.ID_FacultadMo = f_dest.ID_Facultad
+            LEFT JOIN CARRERA c_dest ON m.ID_CarreraMo = c_dest.ID_Carrera
+            LEFT JOIN CALIFICACIONES cal ON e.No_CuentaEstuudiante = cal.No_CuentaEstuudiante;
+        `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error en SQL Alumnos:', err);
+            return res.status(500).json({ error: 'Error al obtener alumnos' });
+        }
+        res.json(results);
+    });
+});
+
