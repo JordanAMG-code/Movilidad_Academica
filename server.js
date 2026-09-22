@@ -348,3 +348,118 @@ app.get('/api/alumnos', (req, res) => {
     });
 });
 
+// ========================================================
+// FUNCIONALIDAD: AGREGAR Y ELIMINAR ALUMNOS
+// ========================================================
+
+// ========================================================
+// FUNCIONALIDAD: AGREGAR ALUMNOS (TRANSACCIÓN)
+// ========================================================
+app.post('/api/alumnos', (req, res) => {
+    const { 
+        correo, contrasena, no_cuenta, contrasenaE, nombres, p_apellido, s_apellido, 
+        fecha_nacimiento, domicilio, nacionalidad, semestre, telefono, id_grupo, 
+        id_carrera, id_movilidad, id_calificacion, id_materia 
+    } = req.body;
+
+    db.beginTransaction(err => {
+        if (err) return res.status(500).json({ exito: false, mensaje: "Error al iniciar" });
+
+        db.query(`INSERT INTO login (correo, contraseña) VALUES (?, ?)`, [correo, contrasena], (err) => {
+            if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+            const sqlEst = `INSERT INTO ESTUDIANTES (No_CuentaEstuudiante, contraseñaE, NombresE, P_ApellidoE, S_ApellidoE, Fecha_Nacimiento, Domicilio, Nacionalidad, Semestre, Num_telefono, id_grupoE, id_CarreraE, correoE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            db.query(sqlEst, [no_cuenta, contrasenaE, nombres, p_apellido, s_apellido, fecha_nacimiento, domicilio, nacionalidad, semestre, telefono, id_grupo, id_carrera, correo], (err) => {
+                if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                db.query(`INSERT INTO ESTUDIANTE_MOVILIDAD (No_CuentaEstuudianteEM, ID_MovilidadEM) VALUES (?, ?)`, [no_cuenta, id_movilidad], (err) => {
+                    if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                    db.query(`INSERT INTO CALIFICACIONES (id_calificacion, parcial_uno, parcial_dos, parcial_tres, Calificaciones, No_CuentaEstuudiante, ID_MateriaC) VALUES (?, 0, 0, 0, 0, ?, ?)`, [id_calificacion, no_cuenta, id_materia], (err) => {
+                        if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                        db.commit(err => {
+                            if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+                            res.json({ exito: true, mensaje: "Alumno guardado" });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
+// Eliminar Alumno
+app.delete('/api/alumnos/:id', (req, res) => {
+    const idAlumno = req.params.id;
+    const sql = 'DELETE FROM ESTUDIANTES WHERE No_CuentaEstuudiante = ?';
+
+    db.query(sql, [idAlumno], (err, result) => {
+        if (err) {
+            console.error("Error al eliminar alumno:", err);
+            return res.status(500).json({ exito: false, mensaje: "No se pudo eliminar. Verifica si tiene una movilidad asignada." });
+        }
+        res.json({ exito: true, mensaje: "Alumno eliminado correctamente" });
+    });
+});
+
+
+// ========================================================
+// FUNCIONALIDAD: AGREGAR Y ELIMINAR DOCENTES
+// ========================================================
+
+// ========================================================
+// FUNCIONALIDAD: AGREGAR DOCENTES (TRANSACCIÓN)
+// ========================================================
+app.post('/api/docentes', (req, res) => {
+    const { 
+        correo, contrasena, no_cuenta, contrasenaD, nombres, p_apellido, s_apellido, 
+        id_carrera, id_materia, nombre_materia, tipo_materia, id_grupo 
+    } = req.body;
+
+    db.beginTransaction(err => {
+        if (err) return res.status(500).json({ exito: false, mensaje: "Error al iniciar" });
+
+        db.query(`INSERT INTO login (correo, contraseña) VALUES (?, ?)`, [correo, contrasena], (err) => {
+            if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+            const sqlDoc = `INSERT INTO DOCENTES (No_CuentaDocente, ContraseñaD, NombresD, P_ApellidoD, S_ApellidoD, ID_CarreraD, correo) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+            db.query(sqlDoc, [no_cuenta, contrasenaD, nombres, p_apellido, s_apellido, id_carrera, correo], (err) => {
+                if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                const sqlMat = `INSERT INTO MATERIA (ID_Materia, NombreM, T_Materia, ID_CarreraM, No_CuentaDocenteM) VALUES (?, ?, ?, ?, ?)`;
+                db.query(sqlMat, [id_materia, nombre_materia, tipo_materia, id_carrera, no_cuenta], (err) => {
+                    if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                    db.query(`INSERT INTO Docente_Grupo (No_CuentaDocenteDG, id_grupo) VALUES (?, ?)`, [no_cuenta, id_grupo], (err) => {
+                        if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                        db.query(`INSERT INTO MATERIA_DOCENTE (No_CuentaDocenteMD, ID_MateriaMD) VALUES (?, ?)`, [no_cuenta, id_materia], (err) => {
+                            if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+
+                            db.commit(err => {
+                                if (err) return db.rollback(() => res.status(500).json({ exito: false, error: err.message }));
+                                res.json({ exito: true, mensaje: "Docente guardado" });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
+// Eliminar Docente
+app.delete('/api/docentes/:id', (req, res) => {
+    const idDocente = req.params.id;
+    const sql = 'DELETE FROM DOCENTES WHERE No_CuentaDocente = ?';
+
+    db.query(sql, [idDocente], (err, result) => {
+        if (err) {
+            console.error("Error al eliminar docente:", err);
+            return res.status(500).json({ exito: false, mensaje: "Error al eliminar el docente" });
+        }
+        res.json({ exito: true, mensaje: "Docente eliminado correctamente" });
+    });
+});
+

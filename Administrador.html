@@ -123,17 +123,60 @@
         <div id="seccion-add-alumno" class="contenido-seccion">
             <h2>Registro de Nuevo Alumno en Movilidad</h2>
             <div class="form-container">
-                <form id="form-alumno">
-                    <p style="text-align: center; color: #666;">(Formulario de alta pendiente de estructurar según BD)</p>
+                <h3>Registrar Nuevo Alumno</h3>
+                <form id="formAlumno">
+                    <h4>Credenciales de Acceso</h4>
+                    <input type="email" name="correo" placeholder="Correo Institucional" required>
+                    <input type="password" name="contrasena" placeholder="Contraseña de Acceso" required>
+
+                    <h4>Datos Personales</h4>
+                    <input type="text" name="noCuenta" placeholder="No. de Cuenta" required>
+                    <input type="password" name="contrasenaE" placeholder="Contraseña de Estudiante" required>
+                    <input type="text" name="nombres" placeholder="Nombre(s)" required>
+                    <input type="text" name="pApellido" placeholder="Primer Apellido" required>
+                    <input type="text" name="sApellido" placeholder="Segundo Apellido">
+                    <input type="date" name="fechaNacimiento" required>
+                    <input type="text" name="domicilio" placeholder="Domicilio Completo" required>
+                    <input type="text" name="nacionalidad" placeholder="Nacionalidad" required>
+                    <input type="number" name="semestre" placeholder="Semestre (ej. 4)" required>
+                    <input type="text" name="telefono" placeholder="Teléfono" required>
+
+                    <h4>Vínculos Académicos</h4>
+                    <input type="text" name="idGrupo" placeholder="ID Grupo (ej. GRUP01)" required>
+                    <input type="text" name="idCarrera" placeholder="ID Carrera (ej. CARR01)" required>
+                    <input type="text" name="idMovilidad" placeholder="ID Movilidad (ej. MOV0001)" required>
+                    <input type="text" name="idCalificacion" placeholder="ID Registro Calificación (ej. CAL0001)" required>
+                    <input type="text" name="idMateria" placeholder="ID Materia Inicial (ej. MAT0001)" required>
+
+                    <button type="submit" class="btn-submit">Guardar Alumno</button>
                 </form>
             </div>
         </div>
 
         <div id="seccion-add-docente" class="contenido-seccion">
-            <h2>Alta de Docente / Tutor Evaluador</h2>
+            <h2>Registro de Nuevo Docente</h2>
             <div class="form-container">
-                <form id="form-docente">
-                     <p style="text-align: center; color: #666;">(Formulario de alta pendiente de estructurar según BD)</p>
+                <h3>Registrar Nuevo Docente</h3>
+                <form id="formDocente">
+                    <h4>Credenciales de Acceso</h4>
+                    <input type="email" name="correo" placeholder="Correo Electrónico" required>
+                    <input type="password" name="contrasena" placeholder="Contraseña de Acceso" required>
+
+                    <h4>Datos del Docente</h4>
+                    <input type="text" name="noDocente" placeholder="No. Cuenta Docente (ej. D000001)" required>
+                    <input type="password" name="contrasenaD" placeholder="Contraseña Docente" required>
+                    <input type="text" name="nombres" placeholder="Nombre(s)" required>
+                    <input type="text" name="pApellido" placeholder="Primer Apellido" required>
+                    <input type="text" name="sApellido" placeholder="Segundo Apellido">
+                    <input type="text" name="idCarrera" placeholder="ID Carrera" required>
+
+                    <h4>Asignación Académica</h4>
+                    <input type="text" name="idMateria" placeholder="ID Materia Nueva (ej. MAT0002)" required>
+                    <input type="text" name="nombreMateria" placeholder="Nombre de la Materia" required>
+                    <input type="text" name="tipoMateria" placeholder="Tipo (Obligatoria/Optativa)" required>
+                    <input type="text" name="idGrupo" placeholder="ID Grupo (ej. GRUP01)" required>
+
+                    <button type="submit" class="btn-submit">Guardar Docente</button>
                 </form>
             </div>
         </div>
@@ -299,17 +342,116 @@
     }
 
     function eliminarRegistro(boton, tipo, idRegistro) {
-        if (confirm(`¿Estás seguro de que deseas eliminar este ${tipo} con ID ${idRegistro}?`)) {
-            let fila = boton.closest('tr');
-            // Si es Alumno, también removemos su fila de detalles expandible que está justo abajo
-            if (tipo === 'Alumno') {
-                const filaDetalle = document.getElementById(`detalles-${idRegistro}`);
-                if (filaDetalle) filaDetalle.remove();
+    if (confirm(`¿Estás seguro de que deseas eliminar este ${tipo} con ID ${idRegistro}?`)) {
+        // Determinamos la ruta de la API según el tipo
+        const ruta = tipo === 'Alumno' ? 'alumnos' : 'docentes';
+
+        fetch(`${API_URL}/${ruta}/${idRegistro}`, {
+            method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.mensaje);
+            if (data.exito) {
+                let fila = boton.closest('tr');
+                if (tipo === 'Alumno') {
+                    const filaDetalle = document.getElementById(`detalles-${idRegistro}`);
+                    if (filaDetalle) filaDetalle.remove();
+                }
+                fila.remove();
+                cargarMetricas(); // Actualiza los contadores de las tarjetas superiores
             }
-            fila.remove();
-            alert(`${tipo} eliminado correctamente.`);
-        }
+        })
+        .catch(error => console.error("Error al eliminar:", error));
     }
+}
+
+// Escuchar envío del formulario de Alumnos
+document.getElementById('formAlumno').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Extraemos todos los datos usando los atributos 'name' del HTML
+    const formData = new FormData(this);
+    const datosForm = Object.fromEntries(formData.entries());
+
+    // Mapeamos los datos para que coincidan con la transacción en Node.js
+    const datosApi = {
+        correo: datosForm.correo,
+        contrasena: datosForm.contrasena,
+        no_cuenta: datosForm.noCuenta,
+        contrasenaE: datosForm.contrasenaE,
+        nombres: datosForm.nombres,
+        p_apellido: datosForm.pApellido,
+        s_apellido: datosForm.sApellido,
+        fecha_nacimiento: datosForm.fechaNacimiento,
+        domicilio: datosForm.domicilio,
+        nacionalidad: datosForm.nacionalidad,
+        semestre: datosForm.semestre,
+        telefono: datosForm.telefono,
+        id_grupo: datosForm.idGrupo,
+        id_carrera: datosForm.idCarrera,
+        id_movilidad: datosForm.idMovilidad,
+        id_calificacion: datosForm.idCalificacion,
+        id_materia: datosForm.idMateria
+    };
+
+    fetch(`${API_URL}/alumnos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datosApi)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.mensaje);
+        if (data.exito) {
+            this.reset();
+            cargarTablaAlumnos();
+            cargarMetricas();
+            cambiarSeccion('monitoreo');
+        }
+    })
+    .catch(err => console.error("Error al guardar alumno:", err));
+});
+
+// Escuchar envío del formulario de Docentes
+document.getElementById('formDocente').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const datosForm = Object.fromEntries(formData.entries());
+
+    const datosApi = {
+        correo: datosForm.correo,
+        contrasena: datosForm.contrasena,
+        no_cuenta: datosForm.noDocente,
+        contrasenaD: datosForm.contrasenaD,
+        nombres: datosForm.nombres,
+        p_apellido: datosForm.pApellido,
+        s_apellido: datosForm.sApellido,
+        id_carrera: datosForm.idCarrera,
+        id_materia: datosForm.idMateria,
+        nombre_materia: datosForm.nombreMateria,
+        tipo_materia: datosForm.tipoMateria,
+        id_grupo: datosForm.idGrupo
+    };
+
+    fetch(`${API_URL}/docentes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datosApi)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.mensaje);
+        if (data.exito) {
+            this.reset();
+            cargarTablaDocentes();
+            cargarMetricas();
+            cambiarSeccion('lista-docentes');
+        }
+    })
+    .catch(err => console.error("Error al guardar docente:", err));
+});
 </script>
 </body>
 </html>
